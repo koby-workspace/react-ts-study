@@ -1,3 +1,4 @@
+import { Button } from "antd";
 import type { Menu } from "../types/menu";
 
 type MenuItemProps = {
@@ -12,7 +13,7 @@ function MenuItem({ menu, onDelete, onEdit }: MenuItemProps) {
       <p>{menu.name}</p>
       <p>{menu.url}</p>
       <button onClick={() => onDelete(menu.id)}>삭제</button>
-      <button onClick={() => onEdit(menu)}>수정</button>
+      <Button onClick={() => onEdit(menu)}>수정</Button>
     </>
   );
 }
