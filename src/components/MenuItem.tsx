@@ -12,7 +12,9 @@ function MenuItem({ menu, onDelete, onEdit }: MenuItemProps) {
     <>
       <p>{menu.name}</p>
       <p>{menu.url}</p>
-      <button onClick={() => onDelete(menu.id)}>삭제</button>
+      <Button danger onClick={() => onDelete(menu.id)}>
+        삭제
+      </Button>
       <Button onClick={() => onEdit(menu)}>수정</Button>
     </>
   );

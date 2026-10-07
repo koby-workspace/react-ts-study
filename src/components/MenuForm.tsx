@@ -1,3 +1,4 @@
+import { Button } from "antd";
 import { type ChangeEvent, type SubmitEvent } from "react";
 
 type MenuFormProps = {
@@ -29,9 +30,9 @@ function MenuForm({
         URL
         <input value={menuUrl} onChange={onMenuUrlChange} />
       </label>
-      <button type="submit">
+      <Button htmlType="submit">
         {editingId === null ? "메뉴 추가" : "메뉴 저장"}
-      </button>
+      </Button>
       {editingId !== null && (
         <button type="button" onClick={onCancel}>
           취소
