@@ -1,4 +1,5 @@
 import { useState, type ChangeEvent, type SubmitEvent } from "react";
+import MenuForm from "./components/MenuForm";
 
 type Menu = {
   id: number;
@@ -16,16 +17,6 @@ type MenuItemProps = {
   menu: Menu;
   onDelete: (id: number) => void;
   onEdit: (menu: Menu) => void;
-};
-
-type MenuFormProps = {
-  menuName: string;
-  menuUrl: string;
-  editingId: number | null;
-  onMenuNameChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onMenuUrlChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: (e: SubmitEvent<HTMLFormElement>) => void;
-  onCancel: () => void;
 };
 
 function MenuItem({ menu, onDelete, onEdit }: MenuItemProps) {
@@ -51,37 +42,6 @@ function MenuList({ menus, onDelete, onEdit }: MenuListProps) {
         />
       ))}
     </>
-  );
-}
-
-function MenuForm({
-  menuName,
-  menuUrl,
-  editingId,
-  onMenuNameChange,
-  onMenuUrlChange,
-  onSubmit,
-  onCancel,
-}: MenuFormProps) {
-  return (
-    <form onSubmit={onSubmit}>
-      <label>
-        메뉴명
-        <input value={menuName} onChange={onMenuNameChange} />
-      </label>
-      <label>
-        URL
-        <input value={menuUrl} onChange={onMenuUrlChange} />
-      </label>
-      <button type="submit">
-        {editingId === null ? "메뉴 추가" : "메뉴 저장"}
-      </button>
-      {editingId !== null && (
-        <button type="button" onClick={onCancel}>
-          취소
-        </button>
-      )}
-    </form>
   );
 }
 
