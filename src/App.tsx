@@ -18,6 +18,16 @@ type MenuItemProps = {
   onEdit: (menu: Menu) => void;
 };
 
+type MenuFormProps = {
+  menuName: string;
+  menuUrl: string;
+  editingId: number | null;
+  onMenuNameChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onMenuUrlChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: (e: SubmitEvent<HTMLFormElement>) => void;
+  onCancel: () => void;
+};
+
 function MenuItem({ menu, onDelete, onEdit }: MenuItemProps) {
   return (
     <>
@@ -41,6 +51,37 @@ function MenuList({ menus, onDelete, onEdit }: MenuListProps) {
         />
       ))}
     </>
+  );
+}
+
+function MenuForm({
+  menuName,
+  menuUrl,
+  editingId,
+  onMenuNameChange,
+  onMenuUrlChange,
+  onSubmit,
+  onCancel,
+}: MenuFormProps) {
+  return (
+    <form onSubmit={onSubmit}>
+      <label>
+        메뉴명
+        <input value={menuName} onChange={onMenuNameChange} />
+      </label>
+      <label>
+        URL
+        <input value={menuUrl} onChange={onMenuUrlChange} />
+      </label>
+      <button type="submit">
+        {editingId === null ? "메뉴 추가" : "메뉴 저장"}
+      </button>
+      {editingId !== null && (
+        <button type="button" onClick={onCancel}>
+          취소
+        </button>
+      )}
+    </form>
   );
 }
 
@@ -122,29 +163,24 @@ function App() {
     setMenuName(e.target.value);
   };
 
+  const handleMenuUrlChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setMenuUrl(e.target.value);
+  };
+
   return (
     <>
       <button onClick={() => setCollapsed((prev) => !prev)}>메뉴 토글</button>
       <p>메뉴 상태: {collapsed ? "접힘" : "펼침"}</p>
       <p>수정 중인 ID: {editingId}</p>
-      <form onSubmit={handleSubmit}>
-        <label>
-          메뉴명
-          <input value={menuName} onChange={handleMenuNameChange} />
-        </label>
-        <label>
-          URL
-          <input value={menuUrl} onChange={(e) => setMenuUrl(e.target.value)} />
-        </label>
-        <button type="submit">
-          {editingId === null ? "메뉴 추가" : "메뉴 저장"}
-        </button>
-        {editingId !== null && (
-          <button type="button" onClick={cancelEdit}>
-            취소
-          </button>
-        )}
-      </form>
+      <MenuForm
+        menuName={menuName}
+        menuUrl={menuUrl}
+        editingId={editingId}
+        onMenuNameChange={handleMenuNameChange}
+        onMenuUrlChange={handleMenuUrlChange}
+        onSubmit={handleSubmit}
+        onCancel={cancelEdit}
+      />
       {!collapsed && (
         <MenuList menus={menus} onDelete={deleteMenu} onEdit={startEdit} />
       )}
