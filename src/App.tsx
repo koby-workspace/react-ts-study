@@ -1,28 +1,7 @@
 import { useState, type ChangeEvent, type SubmitEvent } from "react";
 import MenuForm from "./components/MenuForm";
-import MenuItem from "./components/MenuItem";
+import MenuList from "./components/MenuList";
 import type { Menu } from "./types/menu";
-
-type MenuListProps = {
-  menus: Menu[];
-  onDelete: (id: number) => void;
-  onEdit: (menu: Menu) => void;
-};
-
-function MenuList({ menus, onDelete, onEdit }: MenuListProps) {
-  return (
-    <>
-      {menus.map((menu) => (
-        <MenuItem
-          key={menu.id}
-          menu={menu}
-          onDelete={onDelete}
-          onEdit={onEdit}
-        />
-      ))}
-    </>
-  );
-}
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
