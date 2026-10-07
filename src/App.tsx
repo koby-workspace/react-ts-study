@@ -1,34 +1,13 @@
 import { useState, type ChangeEvent, type SubmitEvent } from "react";
 import MenuForm from "./components/MenuForm";
-
-type Menu = {
-  id: number;
-  name: string;
-  url: string;
-};
+import MenuItem from "./components/MenuItem";
+import type { Menu } from "./types/menu";
 
 type MenuListProps = {
   menus: Menu[];
   onDelete: (id: number) => void;
   onEdit: (menu: Menu) => void;
 };
-
-type MenuItemProps = {
-  menu: Menu;
-  onDelete: (id: number) => void;
-  onEdit: (menu: Menu) => void;
-};
-
-function MenuItem({ menu, onDelete, onEdit }: MenuItemProps) {
-  return (
-    <>
-      <p>{menu.name}</p>
-      <p>{menu.url}</p>
-      <button onClick={() => onDelete(menu.id)}>삭제</button>
-      <button onClick={() => onEdit(menu)}>수정</button>
-    </>
-  );
-}
 
 function MenuList({ menus, onDelete, onEdit }: MenuListProps) {
   return (
