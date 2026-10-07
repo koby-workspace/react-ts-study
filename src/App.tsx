@@ -36,6 +36,10 @@ function App() {
 
   const deleteMenu = (id: number) => {
     setMenus((prev) => prev.filter((menu) => menu.id !== id));
+
+    if (editingId === id) {
+      cancelEdit();
+    }
   };
 
   const updateMenu = (id: number) => {
