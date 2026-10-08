@@ -1,7 +1,8 @@
-import { Button, Input, message } from "antd";
+import { Button, message } from "antd";
 import { useState, type ChangeEvent, type SubmitEvent } from "react";
 import MenuForm from "./components/MenuForm";
 import MenuList from "./components/MenuList";
+import MenuSearch from "./components/MenuSearch";
 import type { Menu } from "./types/menu";
 
 function App() {
@@ -135,11 +136,13 @@ function App() {
       />
       {!collapsed && (
         <>
-          <Input
-            value={searchText}
-            onChange={handleSearchTextChange}
-            placeholder="메뉴명 또는 URL 검색"
-          ></Input>
+          <MenuSearch
+            searchText={searchText}
+            resultCount={filteredMenus.length}
+            totalCount={menus.length}
+            onSearchTextChange={handleSearchTextChange}
+            onReset={() => setSearchText("")}
+          ></MenuSearch>
           <MenuList
             menus={filteredMenus}
             onDelete={deleteMenu}
