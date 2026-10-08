@@ -1,5 +1,5 @@
-import { Button, Input, Space } from "antd";
-import { type ChangeEvent, type SubmitEvent } from "react";
+import { Button, Input, Space, type InputRef } from "antd";
+import { useRef, type ChangeEvent, type SubmitEvent } from "react";
 
 type MenuFormProps = {
   menuName: string;
@@ -20,6 +20,13 @@ function MenuForm({
   onSubmit,
   onCancel,
 }: MenuFormProps) {
+  const menuNameRef = useRef<InputRef>(null);
+
+  const handleCancel = () => {
+    onCancel();
+    menuNameRef.current?.focus();
+  };
+
   return (
     <form onSubmit={onSubmit}>
       <Space size={12} wrap>
@@ -29,6 +36,7 @@ function MenuForm({
             style={{ width: 240 }}
             value={menuName}
             onChange={onMenuNameChange}
+            ref={menuNameRef}
           />
         </label>
         <label>
@@ -43,7 +51,7 @@ function MenuForm({
           {editingId === null ? "메뉴 추가" : "메뉴 저장"}
         </Button>
         {editingId !== null && (
-          <Button htmlType="button" onClick={onCancel}>
+          <Button htmlType="button" onClick={handleCancel}>
             취소
           </Button>
         )}
