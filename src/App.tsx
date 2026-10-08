@@ -19,6 +19,7 @@ function App() {
 
   const addMenu = () => {
     if (menuName.trim() === "" || menuUrl.trim() === "") {
+      messageApi.warning("메뉴명과 URL을 모두 입력해 주세요.");
       return;
     }
 
@@ -50,6 +51,7 @@ function App() {
 
   const updateMenu = (id: number) => {
     if (menuName.trim() === "" || menuUrl.trim() === "") {
+      messageApi.warning("메뉴명과 URL을 모두 입력해 주세요.");
       return;
     }
 
