@@ -1,3 +1,4 @@
+import { message } from "antd";
 import { useState, type ChangeEvent, type SubmitEvent } from "react";
 import MenuForm from "./components/MenuForm";
 import MenuList from "./components/MenuList";
@@ -8,6 +9,7 @@ function App() {
   const [menuName, setMenuName] = useState("");
   const [menuUrl, setMenuUrl] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const [menus, setMenus] = useState<Menu[]>([
     { id: 1, name: "사용자 관리", url: "/users" },
@@ -32,6 +34,8 @@ function App() {
 
     setMenuName("");
     setMenuUrl("");
+
+    messageApi.success("메뉴가 추가되었습니다.");
   };
 
   const deleteMenu = (id: number) => {
@@ -40,6 +44,8 @@ function App() {
     if (editingId === id) {
       cancelEdit();
     }
+
+    messageApi.success("메뉴가 삭제되었습니다.");
   };
 
   const updateMenu = (id: number) => {
@@ -58,6 +64,8 @@ function App() {
     setEditingId(null);
     setMenuName("");
     setMenuUrl("");
+
+    messageApi.success("메뉴가 수정되었습니다.");
   };
 
   const startEdit = (menu: Menu) => {
@@ -91,6 +99,7 @@ function App() {
 
   return (
     <>
+      {contextHolder}
       <button onClick={() => setCollapsed((prev) => !prev)}>메뉴 토글</button>
       <p>메뉴 상태: {collapsed ? "접힘" : "펼침"}</p>
       <p>수정 중인 ID: {editingId}</p>
