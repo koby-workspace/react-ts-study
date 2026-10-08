@@ -81,6 +81,15 @@ function App() {
       return;
     }
 
+    const duplicated = menus.some(
+      (menu) => menu.url === menuUrl.trim() && menu.id !== editingId,
+    );
+
+    if (duplicated) {
+      messageApi.warning("이미 등록된 URL입니다.");
+      return;
+    }
+
     if (editingId === null) {
       addMenu();
     } else {
