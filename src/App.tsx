@@ -1,4 +1,4 @@
-import { Button, message } from "antd";
+import { Button, Input, message } from "antd";
 import { useState, type ChangeEvent, type SubmitEvent } from "react";
 import MenuForm from "./components/MenuForm";
 import MenuList from "./components/MenuList";
@@ -10,6 +10,7 @@ function App() {
   const [menuUrl, setMenuUrl] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
   const [messageApi, contextHolder] = message.useMessage();
+  const [searchText, setSearchText] = useState("");
 
   const [menus, setMenus] = useState<Menu[]>([
     { id: 1, name: "사용자 관리", url: "/users" },
@@ -95,6 +96,18 @@ function App() {
     setMenuUrl(e.target.value);
   };
 
+  const handleSearchTextChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchText(e.target.value);
+  };
+
+  const keyword = searchText.trim().toLowerCase();
+
+  const filteredMenus = menus.filter(
+    (menu) =>
+      menu.name.toLowerCase().includes(keyword) ||
+      menu.url.toLowerCase().includes(keyword),
+  );
+
   return (
     <>
       {contextHolder}
@@ -112,7 +125,18 @@ function App() {
         onCancel={cancelEdit}
       />
       {!collapsed && (
-        <MenuList menus={menus} onDelete={deleteMenu} onEdit={startEdit} />
+        <>
+          <Input
+            value={searchText}
+            onChange={handleSearchTextChange}
+            placeholder="메뉴명 또는 URL 검색"
+          ></Input>
+          <MenuList
+            menus={filteredMenus}
+            onDelete={deleteMenu}
+            onEdit={startEdit}
+          />
+        </>
       )}
     </>
   );
