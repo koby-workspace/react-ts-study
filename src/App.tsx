@@ -18,11 +18,6 @@ function App() {
   ]);
 
   const addMenu = () => {
-    if (menuName.trim() === "" || menuUrl.trim() === "") {
-      messageApi.warning("메뉴명과 URL을 모두 입력해 주세요.");
-      return;
-    }
-
     setMenus((prev) => {
       const ids = prev.map((menu) => menu.id);
       const newId = Math.max(0, ...ids) + 1;
@@ -50,11 +45,6 @@ function App() {
   };
 
   const updateMenu = (id: number) => {
-    if (menuName.trim() === "" || menuUrl.trim() === "") {
-      messageApi.warning("메뉴명과 URL을 모두 입력해 주세요.");
-      return;
-    }
-
     setMenus((prev) =>
       prev.map((menu) =>
         menu.id === id
@@ -84,6 +74,12 @@ function App() {
 
   const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (menuName.trim() === "" || menuUrl.trim() === "") {
+      messageApi.warning("메뉴명과 URL을 모두 입력해 주세요.");
+      return;
+    }
+
     if (editingId === null) {
       addMenu();
     } else {
