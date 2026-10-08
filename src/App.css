@@ -9,3 +9,8 @@
 .app-content {
   padding: 24px;
 }
+
+.app-sidebar a.active {
+  color: #1677ff;
+  font-weight: bold;
+}
