@@ -1,7 +1,8 @@
 import { Layout } from "antd";
-import { Link, Route, Routes } from "react-router";
+import { Link, Navigate, Route, Routes } from "react-router";
 import "./App.css";
 import MenuManagementPage from "./pages/MenuManagementPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import UserManagementPage from "./pages/UserManagementPage";
 
 function App() {
@@ -19,6 +20,8 @@ function App() {
         </Layout.Sider>
         <Layout.Content className="app-content">
           <Routes>
+            <Route path="/" element={<Navigate to="/menus" replace />} />
+            <Route path="*" element={<NotFoundPage />} />
             <Route path="/menus" element={<MenuManagementPage />} />
             <Route path="/users" element={<UserManagementPage />} />
           </Routes>
