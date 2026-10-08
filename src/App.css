@@ -1,0 +1,11 @@
+.app-layout {
+  min-height: 100svh;
+}
+
+.app-header {
+  color: white;
+}
+
+.app-content {
+  padding: 24px;
+}
