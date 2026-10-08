@@ -1,4 +1,4 @@
-import { Button, Popconfirm, Table, type TableColumnsType } from "antd";
+import { Button, Popconfirm, Space, Table, type TableColumnsType } from "antd";
 import type { Menu } from "../types/menu";
 
 type MenuListProps = {
@@ -21,7 +21,7 @@ function MenuList({ menus, onDelete, onEdit }: MenuListProps) {
       title: "작업",
       key: "actions",
       render: (_value, menu) => (
-        <>
+        <Space size={8}>
           <Button onClick={() => onEdit(menu)}>수정</Button>
           <Popconfirm
             title="이 메뉴를 삭제할까요?"
@@ -29,9 +29,9 @@ function MenuList({ menus, onDelete, onEdit }: MenuListProps) {
             cancelText="취소"
             onConfirm={() => onDelete(menu.id)}
           >
-            <Button>삭제</Button>
+            <Button danger>삭제</Button>
           </Popconfirm>
-        </>
+        </Space>
       ),
     },
   ];

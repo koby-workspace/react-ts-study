@@ -39,7 +39,7 @@ function MenuForm({
             onChange={onMenuUrlChange}
           />
         </label>
-        <Button htmlType="submit">
+        <Button htmlType="submit" type="primary">
           {editingId === null ? "메뉴 추가" : "메뉴 저장"}
         </Button>
         {editingId !== null && (

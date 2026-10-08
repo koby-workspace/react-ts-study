@@ -1,4 +1,4 @@
-import { message } from "antd";
+import { Button, message } from "antd";
 import { useState, type ChangeEvent, type SubmitEvent } from "react";
 import MenuForm from "./components/MenuForm";
 import MenuList from "./components/MenuList";
@@ -98,9 +98,10 @@ function App() {
   return (
     <>
       {contextHolder}
-      <button onClick={() => setCollapsed((prev) => !prev)}>메뉴 토글</button>
-      <p>메뉴 상태: {collapsed ? "접힘" : "펼침"}</p>
-      <p>수정 중인 ID: {editingId}</p>
+      <h1>메뉴 관리</h1>
+      <Button onClick={() => setCollapsed((prev) => !prev)}>
+        {collapsed ? "메뉴 펼치기" : "메뉴 접기"}
+      </Button>
       <MenuForm
         menuName={menuName}
         menuUrl={menuUrl}
