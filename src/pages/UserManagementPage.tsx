@@ -19,16 +19,19 @@ type UserFormValues = {
 function UserManagementPage() {
   const [form] = Form.useForm<UserFormValues>();
   const [searchText, setSearchText] = useState("");
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const [users, setUsers] = useState<User[]>([
     { id: "user1", name: "사용자1", email: "a@test.com" },
     { id: "user2", name: "사용자2", email: "b@test.com" },
   ]);
 
-  const handleAddUser = (values: UserFormValues) => {
+  const handleSaveUser = (values: UserFormValues) => {
     const id = values.id.trim();
     const duplicated = users.some(
-      (user) => user.id.toLowerCase() === id.toLowerCase(),
+      (user) =>
+        user.id !== editingId &&
+        user.id.toLowerCase() === id.toLowerCase(),
     );
 
     if (duplicated) {
@@ -36,19 +39,43 @@ function UserManagementPage() {
       return;
     }
 
-    setUsers((prev) => [
-      ...prev,
-      {
-        id,
-        name: values.name.trim(),
-        email: values.email.trim(),
-      },
-    ]);
+    const savedUser: User = {
+      id,
+      name: values.name.trim(),
+      email: values.email.trim(),
+    };
+
+    if (editingId === null) {
+      setUsers((prev) => [...prev, savedUser]);
+    } else {
+      setUsers((prev) =>
+        prev.map((user) => (user.id === editingId ? savedUser : user)),
+      );
+    }
+
+    setEditingId(null);
+    form.resetFields();
+  };
+
+  const handleCancelEdit = () => {
+    setEditingId(null);
     form.resetFields();
   };
 
   const handleDeleteUser = (id: string) => {
     setUsers((prev) => prev.filter((user) => user.id !== id));
+    if (id === editingId) {
+      handleCancelEdit();
+    }
+  };
+
+  const handleEditUser = (user: User) => {
+    setEditingId(user.id);
+    form.setFieldsValue({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    });
   };
 
   const keyword = searchText.trim().toLowerCase();
@@ -76,14 +103,17 @@ function UserManagementPage() {
       title: "작업",
       key: "actions",
       render: (_value, user) => (
-        <Popconfirm
-          title="이 사용자를 삭제할까요?"
-          okText="삭제"
-          cancelText="취소"
-          onConfirm={() => handleDeleteUser(user.id)}
-        >
-          <Button danger>삭제</Button>
-        </Popconfirm>
+        <Space size={8}>
+          <Button onClick={() => handleEditUser(user)}>수정</Button>
+          <Popconfirm
+            title="이 사용자를 삭제할까요?"
+            okText="삭제"
+            cancelText="취소"
+            onConfirm={() => handleDeleteUser(user.id)}
+          >
+            <Button danger>삭제</Button>
+          </Popconfirm>
+        </Space>
       ),
     },
   ];
@@ -94,7 +124,7 @@ function UserManagementPage() {
       <Form<UserFormValues>
         form={form}
         layout="vertical"
-        onFinish={handleAddUser}
+        onFinish={handleSaveUser}
       >
         <Form.Item
           label="계정 ID"
@@ -133,9 +163,16 @@ function UserManagementPage() {
           <Input />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
-            사용자 등록
-          </Button>
+          <Space size={8}>
+            <Button type="primary" htmlType="submit">
+              {editingId === null ? "사용자 등록" : "사용자 수정"}
+            </Button>
+            {editingId !== null && (
+              <Button htmlType="button" onClick={handleCancelEdit}>
+                수정 취소
+              </Button>
+            )}
+          </Space>
         </Form.Item>
       </Form>
       <Space size={12} wrap>
