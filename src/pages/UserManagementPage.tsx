@@ -24,9 +24,7 @@ function UserManagementPage() {
     );
 
     if (duplicated) {
-      form.setFields([
-        { name: "id", errors: ["이미 등록된 계정 ID입니다."] },
-      ]);
+      form.setFields([{ name: "id", errors: ["이미 등록된 계정 ID입니다."] }]);
       return;
     }
 
@@ -88,14 +86,23 @@ function UserManagementPage() {
         <Form.Item
           label="이름"
           name="name"
-          rules={[{ required: true, message: "이름을 입력해 주세요." }]}
+          rules={[
+            {
+              required: true,
+              whitespace: true,
+              message: "이름을 입력해 주세요.",
+            },
+          ]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           label="이메일"
           name="email"
-          rules={[{ required: true, message: "이메일을 입력해 주세요." }]}
+          rules={[
+            { required: true, message: "이메일을 입력해 주세요." },
+            { type: "email", message: "올바른 이메일 형식을 입력해 주세요." },
+          ]}
         >
           <Input />
         </Form.Item>
