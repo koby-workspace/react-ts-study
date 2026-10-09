@@ -1,5 +1,6 @@
-import { Form } from "antd";
+import { Button, Form, Spin, message } from "antd";
 import { useState } from "react";
+import { getUsers } from "../api/users";
 import UserForm from "../components/UserForm";
 import UserList from "../components/UserList";
 import UserSearch from "../components/UserSearch";
@@ -9,6 +10,8 @@ function UserManagementPage() {
   const [form] = Form.useForm<UserFormValues>();
   const [searchText, setSearchText] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const [users, setUsers] = useState<User[]>([
     { id: "user1", name: "사용자1", email: "a@test.com" },
@@ -19,8 +22,7 @@ function UserManagementPage() {
     const id = values.id.trim();
     const duplicated = users.some(
       (user) =>
-        user.id !== editingId &&
-        user.id.toLowerCase() === id.toLowerCase(),
+        user.id !== editingId && user.id.toLowerCase() === id.toLowerCase(),
     );
 
     if (duplicated) {
@@ -51,6 +53,21 @@ function UserManagementPage() {
     form.resetFields();
   };
 
+  const handleLoadUsers = async () => {
+    setLoading(true);
+
+    try {
+      const loadedUsers = await getUsers();
+      setUsers(loadedUsers);
+      handleCancelEdit();
+    } catch (error) {
+      console.error("사용자 조회 실패", error);
+      messageApi.error("사용자 목록을 불러오지 못했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleDeleteUser = (id: string) => {
     setUsers((prev) => prev.filter((user) => user.id !== id));
     if (id === editingId) {
@@ -76,27 +93,31 @@ function UserManagementPage() {
   );
 
   return (
-    <>
-      <h1>사용자 관리</h1>
-      <UserForm
-        form={form}
-        isEditing={editingId !== null}
-        onSave={handleSaveUser}
-        onCancel={handleCancelEdit}
-      />
-      <UserSearch
-        searchText={searchText}
-        resultCount={filteredUsers.length}
-        totalCount={users.length}
-        onSearchTextChange={(e) => setSearchText(e.target.value)}
-        onReset={() => setSearchText("")}
-      />
-      <UserList
-        users={filteredUsers}
-        onEdit={handleEditUser}
-        onDelete={handleDeleteUser}
-      />
-    </>
+    <Spin spinning={loading} description="사용자 조회 중입니다...">
+      <div inert={loading}>
+        {contextHolder}
+        <h1>사용자 관리</h1>
+        <Button onClick={handleLoadUsers}>사용자 조회</Button>
+        <UserForm
+          form={form}
+          isEditing={editingId !== null}
+          onSave={handleSaveUser}
+          onCancel={handleCancelEdit}
+        />
+        <UserSearch
+          searchText={searchText}
+          resultCount={filteredUsers.length}
+          totalCount={users.length}
+          onSearchTextChange={(e) => setSearchText(e.target.value)}
+          onReset={() => setSearchText("")}
+        />
+        <UserList
+          users={filteredUsers}
+          onEdit={handleEditUser}
+          onDelete={handleDeleteUser}
+        />
+      </div>
+    </Spin>
   );
 }
 
