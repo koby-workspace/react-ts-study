@@ -1,7 +1,8 @@
-import { Button, Form, Input, Space } from "antd";
+import { Form } from "antd";
 import { useState } from "react";
 import UserForm from "../components/UserForm";
 import UserList from "../components/UserList";
+import UserSearch from "../components/UserSearch";
 import type { User, UserFormValues } from "../types/user";
 
 function UserManagementPage() {
@@ -83,19 +84,13 @@ function UserManagementPage() {
         onSave={handleSaveUser}
         onCancel={handleCancelEdit}
       />
-      <Space size={12} wrap>
-        <span>
-          검색 결과 {filteredUsers.length}건 / 전체 {users.length}건
-        </span>
-        <Input
-          style={{ width: 240 }}
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          placeholder="계정 ID, 이름 또는 이메일 검색"
-          aria-label="계정 ID, 이름 또는 이메일 검색"
-        />
-        <Button onClick={() => setSearchText("")}>초기화</Button>
-      </Space>
+      <UserSearch
+        searchText={searchText}
+        resultCount={filteredUsers.length}
+        totalCount={users.length}
+        onSearchTextChange={(e) => setSearchText(e.target.value)}
+        onReset={() => setSearchText("")}
+      />
       <UserList
         users={filteredUsers}
         onEdit={handleEditUser}
