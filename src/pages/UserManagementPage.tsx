@@ -1,4 +1,12 @@
-import { Button, Form, Input, Space, Table, type TableColumnsType } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Popconfirm,
+  Space,
+  Table,
+  type TableColumnsType,
+} from "antd";
 import { useState } from "react";
 import type { User } from "../types/user";
 
@@ -39,6 +47,10 @@ function UserManagementPage() {
     form.resetFields();
   };
 
+  const handleDeleteUser = (id: string) => {
+    setUsers((prev) => prev.filter((user) => user.id !== id));
+  };
+
   const keyword = searchText.trim().toLowerCase();
   const filteredUsers = users.filter(
     (user) =>
@@ -59,6 +71,20 @@ function UserManagementPage() {
     {
       title: "이메일",
       dataIndex: "email",
+    },
+    {
+      title: "작업",
+      key: "actions",
+      render: (_value, user) => (
+        <Popconfirm
+          title="이 사용자를 삭제할까요?"
+          okText="삭제"
+          cancelText="취소"
+          onConfirm={() => handleDeleteUser(user.id)}
+        >
+          <Button danger>삭제</Button>
+        </Popconfirm>
+      ),
     },
   ];
 
