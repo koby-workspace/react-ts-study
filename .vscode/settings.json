@@ -1,6 +1,21 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
+  "json.schemas": [
+    {
+      "fileMatch": ["/db.json"],
+      "url": "./node_modules/json-server/schema.json",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "$schema": { "type": "string" }
+        },
+        "additionalProperties": {
+          "oneOf": [{ "type": "array" }, { "type": "object" }]
+        }
+      }
+    }
+  ],
   "editor.codeActionsOnSave": {
     "source.organizeImports": "explicit"
   }
