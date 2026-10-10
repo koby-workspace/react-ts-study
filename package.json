@@ -8,6 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "mock:init": "node scripts/init-mock.mjs",
+    "mock:reset": "node scripts/init-mock.mjs --reset",
+    "premock": "npm run mock:init",
     "mock": "json-server db.json --port 3001"
   },
   "dependencies": {

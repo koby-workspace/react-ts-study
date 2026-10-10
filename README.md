@@ -1,5 +1,25 @@
 # React + TypeScript + Vite
 
+## 학습 프로젝트 실행과 mock 데이터
+
+```bash
+npm ci
+npm run dev
+```
+
+별도 터미널에서 `npm run mock`을 실행하면 사용자 API 서버가
+`http://localhost:3001`에서 시작됩니다. `premock`은 `mock` 실행 전에 npm이
+자동으로 실행하는 script이며, `db.json`이 없을 때만 기본 데이터를 복사합니다.
+서버를 다시 시작해도 기존 실행 데이터는 유지됩니다.
+
+- `db.seed.json`: Git으로 관리하는 기본 샘플 사용자 두 명
+- `db.json`: 등록·수정·삭제가 반영되는 실행 데이터. Git에서는 제외합니다.
+
+실행 파일만 준비하려면 `npm run mock:init`을 사용합니다.
+기본 데이터로 되돌리려면 mock 서버를 `Ctrl+C`로 중지하고
+`npm run mock:reset`을 실행한 뒤 `npm run mock`으로 다시 시작합니다.
+초기화하면 기존 테스트 데이터는 기본 샘플 데이터로 교체됩니다.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
