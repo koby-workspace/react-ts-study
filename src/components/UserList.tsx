@@ -11,7 +11,7 @@ function UserList({ users, onEdit, onDelete }: UserListProps) {
   const columns: TableColumnsType<User> = [
     {
       title: "계정 ID",
-      dataIndex: "id",
+      dataIndex: "loginId",
     },
     {
       title: "이름",

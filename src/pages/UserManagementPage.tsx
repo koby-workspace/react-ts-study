@@ -1,6 +1,6 @@
 import { Button, Form, Spin, message } from "antd";
 import { useState } from "react";
-import { getUsers } from "../api/users";
+import { createUser, deleteUser, getUsers, updateUser } from "../api/users";
 import UserForm from "../components/UserForm";
 import UserList from "../components/UserList";
 import UserSearch from "../components/UserSearch";
@@ -12,40 +12,50 @@ function UserManagementPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
+  const [users, setUsers] = useState<User[]>([]);
 
-  const [users, setUsers] = useState<User[]>([
-    { id: "user1", name: "사용자1", email: "a@test.com" },
-    { id: "user2", name: "사용자2", email: "b@test.com" },
-  ]);
-
-  const handleSaveUser = (values: UserFormValues) => {
-    const id = values.id.trim();
+  const handleSaveUser = async (values: UserFormValues) => {
+    const loginId = values.loginId.trim();
     const duplicated = users.some(
       (user) =>
-        user.id !== editingId && user.id.toLowerCase() === id.toLowerCase(),
+        user.id !== editingId &&
+        user.loginId.toLowerCase() === loginId.toLowerCase(),
     );
 
     if (duplicated) {
-      form.setFields([{ name: "id", errors: ["이미 등록된 계정 ID입니다."] }]);
+      form.setFields([
+        { name: "loginId", errors: ["이미 등록된 계정 ID입니다."] },
+      ]);
       return;
     }
 
-    const savedUser: User = {
-      id,
+    const savedUser: UserFormValues = {
+      loginId,
       name: values.name.trim(),
       email: values.email.trim(),
     };
 
-    if (editingId === null) {
-      setUsers((prev) => [...prev, savedUser]);
-    } else {
-      setUsers((prev) =>
-        prev.map((user) => (user.id === editingId ? savedUser : user)),
-      );
-    }
+    setLoading(true);
 
-    setEditingId(null);
-    form.resetFields();
+    try {
+      if (editingId === null) {
+        const createdUser = await createUser(savedUser);
+        setUsers((prev) => [...prev, createdUser]);
+      } else {
+        const updatedUser = await updateUser(editingId, savedUser);
+        setUsers((prev) =>
+          prev.map((user) => (user.id === editingId ? updatedUser : user)),
+        );
+      }
+
+      setEditingId(null);
+      form.resetFields();
+    } catch (error) {
+      console.error("사용자 저장 실패", error);
+      messageApi.error("사용자를 저장하지 못했습니다.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCancelEdit = () => {
@@ -68,17 +78,28 @@ function UserManagementPage() {
     }
   };
 
-  const handleDeleteUser = (id: string) => {
-    setUsers((prev) => prev.filter((user) => user.id !== id));
-    if (id === editingId) {
-      handleCancelEdit();
+  const handleDeleteUser = async (id: string) => {
+    setLoading(true);
+
+    try {
+      await deleteUser(id);
+
+      setUsers((prev) => prev.filter((user) => user.id !== id));
+      if (id === editingId) {
+        handleCancelEdit();
+      }
+    } catch (error) {
+      console.error("사용자 삭제 실패", error);
+      messageApi.error("사용자를 삭제하지 못했습니다.");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleEditUser = (user: User) => {
     setEditingId(user.id);
     form.setFieldsValue({
-      id: user.id,
+      loginId: user.loginId,
       name: user.name,
       email: user.email,
     });
@@ -87,13 +108,13 @@ function UserManagementPage() {
   const keyword = searchText.trim().toLowerCase();
   const filteredUsers = users.filter(
     (user) =>
-      user.id.toLowerCase().includes(keyword) ||
+      user.loginId.toLowerCase().includes(keyword) ||
       user.name.toLowerCase().includes(keyword) ||
       user.email.toLowerCase().includes(keyword),
   );
 
   return (
-    <Spin spinning={loading} description="사용자 조회 중입니다...">
+    <Spin spinning={loading} description="처리 중입니다...">
       <div inert={loading}>
         {contextHolder}
         <h1>사용자 관리</h1>

@@ -13,7 +13,7 @@ function UserForm({ form, isEditing, onSave, onCancel }: UserFormProps) {
     <Form<UserFormValues> form={form} layout="vertical" onFinish={onSave}>
       <Form.Item
         label="계정 ID"
-        name="id"
+        name="loginId"
         rules={[
           {
             required: true,

@@ -1,6 +1,29 @@
 {
   "users": [
-    { "id": "user1", "name": "사용자1", "email": "a@test.com" },
-    { "id": "user2", "name": "사용자2", "email": "b@test.com" }
-  ]
+    {
+      "id": "user1",
+      "loginId": "user1",
+      "name": "사용자1",
+      "email": "a@test.com"
+    },
+    {
+      "id": "user2",
+      "loginId": "user2",
+      "name": "사용자2",
+      "email": "b@test.com"
+    },
+    {
+      "id": "IN_eqTVAyxM",
+      "loginId": "qwer",
+      "name": "QWER",
+      "email": "qwer@qwer.com"
+    },
+    {
+      "loginId": "test",
+      "name": "테스트",
+      "email": "test@example.com",
+      "id": "N5LGAfBX2VU"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
