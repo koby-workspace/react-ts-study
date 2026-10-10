@@ -51,6 +51,16 @@ function UserManagementPage() {
 
       setEditingId(null);
       form.resetFields();
+
+      try {
+        const loadedUsers = await getUsers();
+        setUsers(loadedUsers);
+      } catch (error) {
+        console.error("저장 후 사용자 조회 실패", error);
+        messageApi.warning(
+          "저장은 완료했지만 목록을 갱신하지 못했습니다. 다시 조회해 주세요.",
+        );
+      }
     } catch (error) {
       console.error("사용자 저장 실패", error);
       messageApi.error("사용자를 저장하지 못했습니다.");
