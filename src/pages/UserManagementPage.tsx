@@ -16,19 +16,6 @@ function UserManagementPage() {
 
   const handleSaveUser = async (values: UserFormValues) => {
     const loginId = values.loginId.trim();
-    const duplicated = users.some(
-      (user) =>
-        user.id !== editingId &&
-        user.loginId.toLowerCase() === loginId.toLowerCase(),
-    );
-
-    if (duplicated) {
-      form.setFields([
-        { name: "loginId", errors: ["이미 등록된 계정 ID입니다."] },
-      ]);
-      return;
-    }
-
     const savedUser: UserFormValues = {
       loginId,
       name: values.name.trim(),
@@ -38,6 +25,20 @@ function UserManagementPage() {
     setLoading(true);
 
     try {
+      const latestUsers = await getUsers();
+      const duplicated = latestUsers.some(
+        (user) =>
+          user.id !== editingId &&
+          user.loginId.toLowerCase() === loginId.toLowerCase(),
+      );
+
+      if (duplicated) {
+        form.setFields([
+          { name: "loginId", errors: ["이미 등록된 계정 ID입니다."] },
+        ]);
+        return;
+      }
+
       if (editingId === null) {
         const createdUser = await createUser(savedUser);
         setUsers((prev) => [...prev, createdUser]);
