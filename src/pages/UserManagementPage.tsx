@@ -1,4 +1,5 @@
 import { Button, Form, Spin, message } from "antd";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { createUser, deleteUser, getUsers, updateUser } from "../api/users";
 import UserForm from "../components/UserForm";
@@ -83,7 +84,18 @@ function UserManagementPage() {
       handleCancelEdit();
     } catch (error) {
       console.error("사용자 조회 실패", error);
-      messageApi.error("사용자 목록을 불러오지 못했습니다.");
+
+      if (axios.isAxiosError(error) && error.code === "ERR_NETWORK") {
+        messageApi.error(
+          "서버에 연결하지 못했습니다. 연결 상태를 확인해 주세요.",
+        );
+      } else if (axios.isAxiosError(error) && error.code === "ECONNABORTED") {
+        messageApi.error(
+          "요청 시간이 초과됐습니다. 잠시 후 다시 시도해 주세요.",
+        );
+      } else {
+        messageApi.error("사용자 목록을 불러오지 못했습니다.");
+      }
     } finally {
       setLoading(false);
     }
