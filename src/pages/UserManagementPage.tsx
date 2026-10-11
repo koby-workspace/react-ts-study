@@ -1,5 +1,5 @@
 import { Button, Form, Spin, message } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createUser, deleteUser, getUsers, updateUser } from "../api/users";
 import UserForm from "../components/UserForm";
 import UserList from "../components/UserList";
@@ -88,6 +88,38 @@ function UserManagementPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    let ignore = false;
+
+    const loadUsers = async () => {
+      setLoading(true);
+
+      try {
+        const loadedUsers = await getUsers();
+        if (!ignore) {
+          setUsers(loadedUsers);
+        }
+      } catch (error) {
+        if (!ignore) {
+          console.error("사용자 조회 실패", error);
+          messageApi.error("사용자 목록을 불러오지 못했습니다.");
+        }
+      } finally {
+        if (!ignore) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadUsers();
+
+    const cleanup = () => {
+      ignore = true;
+    };
+
+    return cleanup;
+  }, [messageApi]);
 
   const handleDeleteUser = async (id: string) => {
     setLoading(true);
