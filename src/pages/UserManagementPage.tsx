@@ -5,13 +5,14 @@ import { createUser, deleteUser, getUsers, updateUser } from "../api/users";
 import UserForm from "../components/UserForm";
 import UserList from "../components/UserList";
 import UserSearch from "../components/UserSearch";
+import { messages } from "../messages/ko";
 import type { User, UserFormValues } from "../types/user";
 
 function getApiErrorMessage(error: unknown, fallbackMessage: string): string {
   if (axios.isAxiosError(error) && error.code === "ERR_NETWORK") {
-    return "서버에 연결하지 못했습니다. 연결 상태를 확인해 주세요.";
+    return messages.common.networkError;
   } else if (axios.isAxiosError(error) && error.code === "ECONNABORTED") {
-    return "요청 시간이 초과됐습니다. 잠시 후 다시 시도해 주세요.";
+    return messages.common.requestTimeout;
   } else {
     return fallbackMessage;
   }
