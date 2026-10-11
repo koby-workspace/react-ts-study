@@ -7,13 +7,13 @@ import UserList from "../components/UserList";
 import UserSearch from "../components/UserSearch";
 import type { User, UserFormValues } from "../types/user";
 
-function getUserLoadErrorMessage(error: unknown): string {
+function getApiErrorMessage(error: unknown, fallbackMessage: string): string {
   if (axios.isAxiosError(error) && error.code === "ERR_NETWORK") {
     return "서버에 연결하지 못했습니다. 연결 상태를 확인해 주세요.";
   } else if (axios.isAxiosError(error) && error.code === "ECONNABORTED") {
     return "요청 시간이 초과됐습니다. 잠시 후 다시 시도해 주세요.";
   } else {
-    return "사용자 목록을 불러오지 못했습니다.";
+    return fallbackMessage;
   }
 }
 
@@ -74,7 +74,9 @@ function UserManagementPage() {
       }
     } catch (error) {
       console.error("사용자 저장 실패", error);
-      messageApi.error("사용자를 저장하지 못했습니다.");
+      messageApi.error(
+        getApiErrorMessage(error, "사용자를 저장하지 못했습니다."),
+      );
     } finally {
       setLoading(false);
     }
@@ -95,7 +97,9 @@ function UserManagementPage() {
     } catch (error) {
       console.error("사용자 조회 실패", error);
 
-      messageApi.error(getUserLoadErrorMessage(error));
+      messageApi.error(
+        getApiErrorMessage(error, "사용자 목록을 불러오지 못했습니다."),
+      );
     } finally {
       setLoading(false);
     }
@@ -115,7 +119,9 @@ function UserManagementPage() {
       } catch (error) {
         if (!ignore) {
           console.error("사용자 조회 실패", error);
-          messageApi.error(getUserLoadErrorMessage(error));
+          messageApi.error(
+            getApiErrorMessage(error, "사용자 목록을 불러오지 못했습니다."),
+          );
         }
       } finally {
         if (!ignore) {
@@ -145,7 +151,9 @@ function UserManagementPage() {
       }
     } catch (error) {
       console.error("사용자 삭제 실패", error);
-      messageApi.error("사용자를 삭제하지 못했습니다.");
+      messageApi.error(
+        getApiErrorMessage(error, "사용자를 삭제하지 못했습니다."),
+      );
     } finally {
       setLoading(false);
     }
