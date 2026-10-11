@@ -7,6 +7,16 @@ import UserList from "../components/UserList";
 import UserSearch from "../components/UserSearch";
 import type { User, UserFormValues } from "../types/user";
 
+function getUserLoadErrorMessage(error: unknown): string {
+  if (axios.isAxiosError(error) && error.code === "ERR_NETWORK") {
+    return "서버에 연결하지 못했습니다. 연결 상태를 확인해 주세요.";
+  } else if (axios.isAxiosError(error) && error.code === "ECONNABORTED") {
+    return "요청 시간이 초과됐습니다. 잠시 후 다시 시도해 주세요.";
+  } else {
+    return "사용자 목록을 불러오지 못했습니다.";
+  }
+}
+
 function UserManagementPage() {
   const [form] = Form.useForm<UserFormValues>();
   const [searchText, setSearchText] = useState("");
@@ -85,17 +95,7 @@ function UserManagementPage() {
     } catch (error) {
       console.error("사용자 조회 실패", error);
 
-      if (axios.isAxiosError(error) && error.code === "ERR_NETWORK") {
-        messageApi.error(
-          "서버에 연결하지 못했습니다. 연결 상태를 확인해 주세요.",
-        );
-      } else if (axios.isAxiosError(error) && error.code === "ECONNABORTED") {
-        messageApi.error(
-          "요청 시간이 초과됐습니다. 잠시 후 다시 시도해 주세요.",
-        );
-      } else {
-        messageApi.error("사용자 목록을 불러오지 못했습니다.");
-      }
+      messageApi.error(getUserLoadErrorMessage(error));
     } finally {
       setLoading(false);
     }
@@ -115,7 +115,7 @@ function UserManagementPage() {
       } catch (error) {
         if (!ignore) {
           console.error("사용자 조회 실패", error);
-          messageApi.error("사용자 목록을 불러오지 못했습니다.");
+          messageApi.error(getUserLoadErrorMessage(error));
         }
       } finally {
         if (!ignore) {
