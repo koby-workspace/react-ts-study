@@ -1,5 +1,5 @@
 import { Button, Popconfirm, Space, Table, type TableColumnsType } from "antd";
-import { messages } from "../messages/ko";
+import { useTranslation } from "react-i18next";
 import type { User } from "../types/user";
 
 type UserListProps = {
@@ -9,6 +9,8 @@ type UserListProps = {
 };
 
 function UserList({ users, onEdit, onDelete }: UserListProps) {
+  const { t } = useTranslation();
+
   const columns: TableColumnsType<User> = [
     {
       title: "계정 ID",
@@ -29,7 +31,7 @@ function UserList({ users, onEdit, onDelete }: UserListProps) {
         <Space size={8}>
           <Button onClick={() => onEdit(user)}>수정</Button>
           <Popconfirm
-            title={messages.user.deleteConfirm(user.name)}
+            title={t("user.deleteConfirm", { name: user.name })}
             okText="삭제"
             cancelText="취소"
             onConfirm={() => onDelete(user.id)}

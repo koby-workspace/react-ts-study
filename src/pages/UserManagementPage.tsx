@@ -5,14 +5,14 @@ import { createUser, deleteUser, getUsers, updateUser } from "../api/users";
 import UserForm from "../components/UserForm";
 import UserList from "../components/UserList";
 import UserSearch from "../components/UserSearch";
-import { messages } from "../messages/ko";
+import i18n from "../i18n";
 import type { User, UserFormValues } from "../types/user";
 
 function getApiErrorMessage(error: unknown, fallbackMessage: string): string {
   if (axios.isAxiosError(error) && error.code === "ERR_NETWORK") {
-    return messages.common.networkError;
+    return i18n.t("common.networkError");
   } else if (axios.isAxiosError(error) && error.code === "ECONNABORTED") {
-    return messages.common.requestTimeout;
+    return i18n.t("common.requestTimeout");
   } else {
     return fallbackMessage;
   }
@@ -46,7 +46,7 @@ function UserManagementPage() {
 
       if (duplicated) {
         form.setFields([
-          { name: "loginId", errors: [messages.user.duplicateLoginId] },
+          { name: "loginId", errors: [i18n.t("user.duplicateLoginId")] },
         ]);
         return;
       }
@@ -69,12 +69,12 @@ function UserManagementPage() {
         setUsers(loadedUsers);
       } catch (error) {
         console.error("저장 후 사용자 조회 실패", error);
-        messageApi.warning(messages.user.savedButReloadFailed);
+        messageApi.warning(i18n.t("user.savedButReloadFailed"));
       }
     } catch (error) {
       console.error("사용자 저장 실패", error);
       messageApi.error(
-        getApiErrorMessage(error, messages.user.saveFailed),
+        getApiErrorMessage(error, i18n.t("user.saveFailed")),
       );
     } finally {
       setLoading(false);
@@ -97,7 +97,7 @@ function UserManagementPage() {
       console.error("사용자 조회 실패", error);
 
       messageApi.error(
-        getApiErrorMessage(error, messages.user.loadFailed),
+        getApiErrorMessage(error, i18n.t("user.loadFailed")),
       );
     } finally {
       setLoading(false);
@@ -119,7 +119,7 @@ function UserManagementPage() {
         if (!ignore) {
           console.error("사용자 조회 실패", error);
           messageApi.error(
-            getApiErrorMessage(error, messages.user.loadFailed),
+            getApiErrorMessage(error, i18n.t("user.loadFailed")),
           );
         }
       } finally {
@@ -151,7 +151,7 @@ function UserManagementPage() {
     } catch (error) {
       console.error("사용자 삭제 실패", error);
       messageApi.error(
-        getApiErrorMessage(error, messages.user.deleteFailed),
+        getApiErrorMessage(error, i18n.t("user.deleteFailed")),
       );
     } finally {
       setLoading(false);

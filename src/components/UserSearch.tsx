@@ -1,6 +1,6 @@
 import { Button, Input, Space } from "antd";
 import type { ChangeEvent } from "react";
-import { messages } from "../messages/ko";
+import { useTranslation } from "react-i18next";
 
 type UserSearchProps = {
   searchText: string;
@@ -17,9 +17,11 @@ function UserSearch({
   onSearchTextChange,
   onReset,
 }: UserSearchProps) {
+  const { t } = useTranslation();
+
   return (
     <Space size={12} wrap>
-      <span>{messages.user.searchResult(resultCount, totalCount)}</span>
+      <span>{t("user.searchResult", { resultCount, totalCount })}</span>
       <Input
         style={{ width: 240 }}
         value={searchText}
