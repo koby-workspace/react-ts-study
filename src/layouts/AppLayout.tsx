@@ -3,11 +3,22 @@ import enUS from "antd/es/locale/en_US";
 import koKR from "antd/es/locale/ko_KR";
 import { useTranslation } from "react-i18next";
 import { NavLink, Outlet } from "react-router";
+import { LANGUAGE_STORAGE_KEY } from "../i18n";
 import "../App.css";
 
 function AppLayout() {
   const { i18n } = useTranslation();
   const antdLocale = i18n.resolvedLanguage === "en" ? enUS : koKR;
+
+  const handleLanguageChange = (language: "ko" | "en") => {
+    void i18n.changeLanguage(language);
+
+    try {
+      localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+    } catch {
+      // 저장이 불가능해도 현재 화면의 언어 전환은 유지한다.
+    }
+  };
 
   return (
     <ConfigProvider locale={antdLocale}>
@@ -23,7 +34,7 @@ function AppLayout() {
                 { value: "ko", label: "한국어" },
                 { value: "en", label: "English" },
               ]}
-              onChange={(language) => void i18n.changeLanguage(language)}
+              onChange={handleLanguageChange}
             />
           </Space>
         </Layout.Header>

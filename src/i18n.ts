@@ -3,12 +3,24 @@ import { initReactI18next } from "react-i18next";
 import { messages as ko } from "./messages/ko";
 import { messages as en } from "./messages/en";
 
+export const LANGUAGE_STORAGE_KEY = "preferredLanguage";
+
+function getInitialLanguage(): "ko" | "en" {
+  try {
+    const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
+    return savedLanguage === "en" ? "en" : "ko";
+  } catch {
+    // 브라우저 저장소를 사용할 수 없으면 기본 언어로 시작한다.
+    return "ko";
+  }
+}
+
 void i18n.use(initReactI18next).init({
   resources: {
     ko: { translation: ko },
     en: { translation: en },
   },
-  lng: "ko",
+  lng: getInitialLanguage(),
   fallbackLng: "ko",
   supportedLngs: ["ko", "en"],
   interpolation: {
