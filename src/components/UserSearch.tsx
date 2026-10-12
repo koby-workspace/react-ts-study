@@ -1,5 +1,6 @@
 import { Button, Input, Space } from "antd";
 import type { ChangeEvent } from "react";
+import { messages } from "../messages/ko";
 
 type UserSearchProps = {
   searchText: string;
@@ -18,9 +19,7 @@ function UserSearch({
 }: UserSearchProps) {
   return (
     <Space size={12} wrap>
-      <span>
-        검색 결과 {resultCount}건 / 전체 {totalCount}건
-      </span>
+      <span>{messages.user.searchResult(resultCount, totalCount)}</span>
       <Input
         style={{ width: 240 }}
         value={searchText}

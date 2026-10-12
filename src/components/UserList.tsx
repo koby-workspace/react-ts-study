@@ -1,4 +1,5 @@
 import { Button, Popconfirm, Space, Table, type TableColumnsType } from "antd";
+import { messages } from "../messages/ko";
 import type { User } from "../types/user";
 
 type UserListProps = {
@@ -28,7 +29,7 @@ function UserList({ users, onEdit, onDelete }: UserListProps) {
         <Space size={8}>
           <Button onClick={() => onEdit(user)}>수정</Button>
           <Popconfirm
-            title="이 사용자를 삭제할까요?"
+            title={messages.user.deleteConfirm(user.name)}
             okText="삭제"
             cancelText="취소"
             onConfirm={() => onDelete(user.id)}

@@ -6,6 +6,9 @@ export const messages = {
       "요청 시간이 초과됐습니다. 잠시 후 다시 시도해 주세요.",
   },
   user: {
+    searchResult: (resultCount: number, totalCount: number) =>
+      `검색 결과 ${resultCount}건 / 전체 ${totalCount}건`,
+    deleteConfirm: (name: string) => `${name} 사용자를 삭제할까요?`,
     loadFailed: "사용자 목록을 불러오지 못했습니다.",
     saveFailed: "사용자를 저장하지 못했습니다.",
     deleteFailed: "사용자를 삭제하지 못했습니다.",
