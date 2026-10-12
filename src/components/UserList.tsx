@@ -13,30 +13,30 @@ function UserList({ users, onEdit, onDelete }: UserListProps) {
 
   const columns: TableColumnsType<User> = [
     {
-      title: "계정 ID",
+      title: t("user.loginId"),
       dataIndex: "loginId",
     },
     {
-      title: "이름",
+      title: t("user.name"),
       dataIndex: "name",
     },
     {
-      title: "이메일",
+      title: t("user.email"),
       dataIndex: "email",
     },
     {
-      title: "작업",
+      title: t("common.actions"),
       key: "actions",
       render: (_value, user) => (
         <Space size={8}>
-          <Button onClick={() => onEdit(user)}>수정</Button>
+          <Button onClick={() => onEdit(user)}>{t("common.edit")}</Button>
           <Popconfirm
             title={t("user.deleteConfirm", { name: user.name })}
-            okText="삭제"
-            cancelText="취소"
+            okText={t("common.delete")}
+            cancelText={t("common.cancel")}
             onConfirm={() => onDelete(user.id)}
           >
-            <Button danger>삭제</Button>
+            <Button danger>{t("common.delete")}</Button>
           </Popconfirm>
         </Space>
       ),

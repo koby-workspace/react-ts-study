@@ -7,7 +7,7 @@ import { LANGUAGE_STORAGE_KEY } from "../i18n";
 import "../App.css";
 
 function AppLayout() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const antdLocale = i18n.resolvedLanguage === "en" ? enUS : koKR;
 
   const handleLanguageChange = (language: "ko" | "en") => {
@@ -41,10 +41,10 @@ function AppLayout() {
         <Layout>
           <Layout.Sider className="app-sidebar" theme="light" width={200}>
             <div>
-              <NavLink to="/menus">메뉴 관리</NavLink>
+              <NavLink to="/menus">{t("menu.title")}</NavLink>
             </div>
             <div>
-              <NavLink to="/users">사용자 관리</NavLink>
+              <NavLink to="/users">{t("user.title")}</NavLink>
             </div>
           </Layout.Sider>
           <Layout.Content className="app-content">

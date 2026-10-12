@@ -26,10 +26,10 @@ function UserSearch({
         style={{ width: 240 }}
         value={searchText}
         onChange={onSearchTextChange}
-        placeholder="계정 ID, 이름 또는 이메일 검색"
-        aria-label="계정 ID, 이름 또는 이메일 검색"
+        placeholder={t("user.searchPlaceholder")}
+        aria-label={t("user.searchPlaceholder")}
       />
-      <Button onClick={onReset}>초기화</Button>
+      <Button onClick={onReset}>{t("common.reset")}</Button>
     </Space>
   );
 }

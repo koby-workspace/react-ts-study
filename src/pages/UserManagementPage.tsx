@@ -1,6 +1,7 @@
 import { Button, Form, Spin, message } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { createUser, deleteUser, getUsers, updateUser } from "../api/users";
 import UserForm from "../components/UserForm";
 import UserList from "../components/UserList";
@@ -19,6 +20,7 @@ function getApiErrorMessage(error: unknown, fallbackMessage: string): string {
 }
 
 function UserManagementPage() {
+  const { t } = useTranslation();
   const [form] = Form.useForm<UserFormValues>();
   const [searchText, setSearchText] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -176,11 +178,11 @@ function UserManagementPage() {
   );
 
   return (
-    <Spin spinning={loading} description="처리 중입니다...">
+    <Spin spinning={loading} description={t("common.processing")}>
       <div inert={loading}>
         {contextHolder}
-        <h1>사용자 관리</h1>
-        <Button onClick={handleLoadUsers}>사용자 조회</Button>
+        <h1>{t("user.title")}</h1>
+        <Button onClick={handleLoadUsers}>{t("user.load")}</Button>
         <UserForm
           form={form}
           isEditing={editingId !== null}
