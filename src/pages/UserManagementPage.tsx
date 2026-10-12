@@ -46,7 +46,7 @@ function UserManagementPage() {
 
       if (duplicated) {
         form.setFields([
-          { name: "loginId", errors: ["이미 등록된 계정 ID입니다."] },
+          { name: "loginId", errors: [messages.user.duplicateLoginId] },
         ]);
         return;
       }
@@ -69,14 +69,12 @@ function UserManagementPage() {
         setUsers(loadedUsers);
       } catch (error) {
         console.error("저장 후 사용자 조회 실패", error);
-        messageApi.warning(
-          "저장은 완료했지만 목록을 갱신하지 못했습니다. 다시 조회해 주세요.",
-        );
+        messageApi.warning(messages.user.savedButReloadFailed);
       }
     } catch (error) {
       console.error("사용자 저장 실패", error);
       messageApi.error(
-        getApiErrorMessage(error, "사용자를 저장하지 못했습니다."),
+        getApiErrorMessage(error, messages.user.saveFailed),
       );
     } finally {
       setLoading(false);
@@ -99,7 +97,7 @@ function UserManagementPage() {
       console.error("사용자 조회 실패", error);
 
       messageApi.error(
-        getApiErrorMessage(error, "사용자 목록을 불러오지 못했습니다."),
+        getApiErrorMessage(error, messages.user.loadFailed),
       );
     } finally {
       setLoading(false);
@@ -121,7 +119,7 @@ function UserManagementPage() {
         if (!ignore) {
           console.error("사용자 조회 실패", error);
           messageApi.error(
-            getApiErrorMessage(error, "사용자 목록을 불러오지 못했습니다."),
+            getApiErrorMessage(error, messages.user.loadFailed),
           );
         }
       } finally {
@@ -153,7 +151,7 @@ function UserManagementPage() {
     } catch (error) {
       console.error("사용자 삭제 실패", error);
       messageApi.error(
-        getApiErrorMessage(error, "사용자를 삭제하지 못했습니다."),
+        getApiErrorMessage(error, messages.user.deleteFailed),
       );
     } finally {
       setLoading(false);
