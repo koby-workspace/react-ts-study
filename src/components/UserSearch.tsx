@@ -21,7 +21,7 @@ function UserSearch({
 
   return (
     <Space size={12} wrap>
-      <span>{t("user.searchResult", { resultCount, totalCount })}</span>
+      <span>{t("common.searchResult", { resultCount, totalCount })}</span>
       <Input
         style={{ width: 240 }}
         value={searchText}

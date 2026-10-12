@@ -1,11 +1,13 @@
 import { Button, message } from "antd";
 import { useState, type ChangeEvent, type SubmitEvent } from "react";
+import { useTranslation } from "react-i18next";
 import MenuForm from "../components/MenuForm";
 import MenuList from "../components/MenuList";
 import MenuSearch from "../components/MenuSearch";
 import type { Menu } from "../types/menu";
 
 function MenuManagementPage() {
+  const { t } = useTranslation();
   const [collapsed, setCollapsed] = useState(false);
   const [menuName, setMenuName] = useState("");
   const [menuUrl, setMenuUrl] = useState("");
@@ -33,7 +35,7 @@ function MenuManagementPage() {
     setMenuName("");
     setMenuUrl("");
 
-    messageApi.success("메뉴가 추가되었습니다.");
+    messageApi.success(t("menu.added"));
   };
 
   const deleteMenu = (id: number) => {
@@ -43,7 +45,7 @@ function MenuManagementPage() {
       cancelEdit();
     }
 
-    messageApi.success("메뉴가 삭제되었습니다.");
+    messageApi.success(t("menu.deleted"));
   };
 
   const updateMenu = (id: number) => {
@@ -59,7 +61,7 @@ function MenuManagementPage() {
     setMenuName("");
     setMenuUrl("");
 
-    messageApi.success("메뉴가 수정되었습니다.");
+    messageApi.success(t("menu.updated"));
   };
 
   const startEdit = (menu: Menu) => {
@@ -78,7 +80,7 @@ function MenuManagementPage() {
     e.preventDefault();
 
     if (menuName.trim() === "" || menuUrl.trim() === "") {
-      messageApi.warning("메뉴명과 URL을 모두 입력해 주세요.");
+      messageApi.warning(t("menu.fieldsRequired"));
       return;
     }
 
@@ -87,7 +89,7 @@ function MenuManagementPage() {
     );
 
     if (duplicated) {
-      messageApi.warning("이미 등록된 URL입니다.");
+      messageApi.warning(t("menu.duplicateUrl"));
       return;
     }
 
@@ -121,9 +123,9 @@ function MenuManagementPage() {
   return (
     <>
       {contextHolder}
-      <h1>메뉴 관리</h1>
+      <h1>{t("menu.title")}</h1>
       <Button onClick={() => setCollapsed((prev) => !prev)}>
-        {collapsed ? "메뉴 펼치기" : "메뉴 접기"}
+        {collapsed ? t("menu.expand") : t("menu.collapse")}
       </Button>
       <MenuForm
         menuName={menuName}

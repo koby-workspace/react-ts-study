@@ -1,5 +1,6 @@
 import { Button, Input, Space } from "antd";
 import type { ChangeEvent } from "react";
+import { useTranslation } from "react-i18next";
 
 type MenuSearchProps = {
   searchText: string;
@@ -16,19 +17,22 @@ function MenuSearch({
   onSearchTextChange,
   onReset,
 }: MenuSearchProps) {
+  const { t } = useTranslation();
+
   return (
     <>
       <Space size={12} wrap>
         <span>
-          검색 결과 {resultCount}건 / 전체 {totalCount}건
+          {t("common.searchResult", { resultCount, totalCount })}
         </span>
         <Input
           style={{ width: 240 }}
           value={searchText}
           onChange={onSearchTextChange}
-          placeholder="메뉴명 또는 URL 검색"
+          placeholder={t("menu.searchPlaceholder")}
+          aria-label={t("menu.searchPlaceholder")}
         ></Input>
-        <Button onClick={onReset}>초기화</Button>
+        <Button onClick={onReset}>{t("common.reset")}</Button>
       </Space>
     </>
   );

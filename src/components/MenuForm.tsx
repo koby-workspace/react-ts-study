@@ -1,5 +1,6 @@
 import { Button, Input, Space, type InputRef } from "antd";
 import { useRef, type ChangeEvent, type SubmitEvent } from "react";
+import { useTranslation } from "react-i18next";
 
 type MenuFormProps = {
   menuName: string;
@@ -20,6 +21,7 @@ function MenuForm({
   onSubmit,
   onCancel,
 }: MenuFormProps) {
+  const { t } = useTranslation();
   const menuNameRef = useRef<InputRef>(null);
 
   const handleCancel = () => {
@@ -31,7 +33,7 @@ function MenuForm({
     <form onSubmit={onSubmit}>
       <Space size={12} wrap>
         <label>
-          메뉴명
+          {t("menu.name")}
           <Input
             style={{ width: 240 }}
             value={menuName}
@@ -40,7 +42,7 @@ function MenuForm({
           />
         </label>
         <label>
-          URL
+          {t("menu.url")}
           <Input
             style={{ width: 240 }}
             value={menuUrl}
@@ -48,11 +50,11 @@ function MenuForm({
           />
         </label>
         <Button htmlType="submit" type="primary">
-          {editingId === null ? "메뉴 추가" : "메뉴 저장"}
+          {editingId === null ? t("menu.add") : t("menu.save")}
         </Button>
         {editingId !== null && (
           <Button htmlType="button" onClick={handleCancel}>
-            취소
+            {t("common.cancel")}
           </Button>
         )}
       </Space>

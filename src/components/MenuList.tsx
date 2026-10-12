@@ -1,4 +1,5 @@
 import { Button, Popconfirm, Space, Table, type TableColumnsType } from "antd";
+import { useTranslation } from "react-i18next";
 import type { Menu } from "../types/menu";
 
 type MenuListProps = {
@@ -8,28 +9,29 @@ type MenuListProps = {
 };
 
 function MenuList({ menus, onDelete, onEdit }: MenuListProps) {
+  const { t } = useTranslation();
   const columns: TableColumnsType<Menu> = [
     {
-      title: "메뉴명",
+      title: t("menu.name"),
       dataIndex: "name",
     },
     {
-      title: "URL",
+      title: t("menu.url"),
       dataIndex: "url",
     },
     {
-      title: "작업",
+      title: t("common.actions"),
       key: "actions",
       render: (_value, menu) => (
         <Space size={8}>
-          <Button onClick={() => onEdit(menu)}>수정</Button>
+          <Button onClick={() => onEdit(menu)}>{t("common.edit")}</Button>
           <Popconfirm
-            title="이 메뉴를 삭제할까요?"
-            okText="삭제"
-            cancelText="취소"
+            title={t("menu.deleteConfirm", { name: menu.name })}
+            okText={t("common.delete")}
+            cancelText={t("common.cancel")}
             onConfirm={() => onDelete(menu.id)}
           >
-            <Button danger>삭제</Button>
+            <Button danger>{t("common.delete")}</Button>
           </Popconfirm>
         </Space>
       ),
