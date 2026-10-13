@@ -8,8 +8,15 @@ export const messages = {
     searchResult: "Search results: {{resultCount}} / Total: {{totalCount}}",
     actions: "Actions",
     processing: "Processing...",
-    networkError: "Unable to connect to the server. Please check your connection.",
+    networkError:
+      "Unable to connect to the server. Please check your connection.",
     requestTimeout: "The request timed out. Please try again shortly.",
+  },
+  auth: {
+    demoLogin: "Demo login",
+    logout: "Log out",
+    signedInAs: "Signed in as: {{name}}",
+    signedOut: "Signed out",
   },
   notFound: {
     description: "The page could not be found.",

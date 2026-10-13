@@ -7,6 +7,7 @@ import UserForm from "../components/UserForm";
 import UserList from "../components/UserList";
 import UserSearch from "../components/UserSearch";
 import i18n from "../i18n";
+import { useAppSelector } from "../store/hooks";
 import type { User, UserFormValues } from "../types/user";
 
 function getApiErrorMessage(error: unknown, fallbackMessage: string): string {
@@ -21,6 +22,7 @@ function getApiErrorMessage(error: unknown, fallbackMessage: string): string {
 
 function UserManagementPage() {
   const { t } = useTranslation();
+  const loginUser = useAppSelector((state) => state.auth.user);
   const [form] = Form.useForm<UserFormValues>();
   const [searchText, setSearchText] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -75,9 +77,7 @@ function UserManagementPage() {
       }
     } catch (error) {
       console.error("사용자 저장 실패", error);
-      messageApi.error(
-        getApiErrorMessage(error, i18n.t("user.saveFailed")),
-      );
+      messageApi.error(getApiErrorMessage(error, i18n.t("user.saveFailed")));
     } finally {
       setLoading(false);
     }
@@ -98,9 +98,7 @@ function UserManagementPage() {
     } catch (error) {
       console.error("사용자 조회 실패", error);
 
-      messageApi.error(
-        getApiErrorMessage(error, i18n.t("user.loadFailed")),
-      );
+      messageApi.error(getApiErrorMessage(error, i18n.t("user.loadFailed")));
     } finally {
       setLoading(false);
     }
@@ -152,9 +150,7 @@ function UserManagementPage() {
       }
     } catch (error) {
       console.error("사용자 삭제 실패", error);
-      messageApi.error(
-        getApiErrorMessage(error, i18n.t("user.deleteFailed")),
-      );
+      messageApi.error(getApiErrorMessage(error, i18n.t("user.deleteFailed")));
     } finally {
       setLoading(false);
     }
@@ -182,6 +178,11 @@ function UserManagementPage() {
       <div inert={loading}>
         {contextHolder}
         <h1>{t("user.title")}</h1>
+        <p>
+          {loginUser
+            ? t("auth.signedInAs", { name: loginUser.name })
+            : t("auth.signedOut")}
+        </p>
         <Button onClick={handleLoadUsers}>{t("user.load")}</Button>
         <UserForm
           form={form}

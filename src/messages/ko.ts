@@ -8,10 +8,14 @@ export const messages = {
     searchResult: "검색 결과 {{resultCount}}건 / 전체 {{totalCount}}건",
     actions: "작업",
     processing: "처리 중입니다...",
-    networkError:
-      "서버에 연결하지 못했습니다. 연결 상태를 확인해 주세요.",
-    requestTimeout:
-      "요청 시간이 초과됐습니다. 잠시 후 다시 시도해 주세요.",
+    networkError: "서버에 연결하지 못했습니다. 연결 상태를 확인해 주세요.",
+    requestTimeout: "요청 시간이 초과됐습니다. 잠시 후 다시 시도해 주세요.",
+  },
+  auth: {
+    demoLogin: "데모 로그인",
+    logout: "로그아웃",
+    signedInAs: "로그인 사용자: {{name}}",
+    signedOut: "로그아웃 상태",
   },
   notFound: {
     description: "페이지를 찾을 수 없습니다.",
