@@ -10,6 +10,7 @@ import koKR from "antd/es/locale/ko_KR";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, Outlet } from "react-router";
+import { canAccessPage } from "../auth/permissions";
 import { LANGUAGE_STORAGE_KEY } from "../i18n";
 import { loginDemo, logout } from "../store/authSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -66,14 +67,20 @@ function AppLayout() {
                 ? t("auth.signedInAs", { name: loginUser.name })
                 : t("auth.signedOut")}
             </span>
+            {loginUser && <span>{t(`auth.roles.${loginUser.role}`)}</span>}
             {loginUser ? (
               <Button onClick={() => dispatch(logout())}>
                 {t("auth.logout")}
               </Button>
             ) : (
-              <Button onClick={() => dispatch(loginDemo())}>
-                {t("auth.demoLogin")}
-              </Button>
+              <Space wrap>
+                <Button onClick={() => dispatch(loginDemo("admin"))}>
+                  {t("auth.demoAdminLogin")}
+                </Button>
+                <Button onClick={() => dispatch(loginDemo("user"))}>
+                  {t("auth.demoUserLogin")}
+                </Button>
+              </Space>
             )}
             <Select
               aria-label="언어 / Language"
@@ -98,14 +105,18 @@ function AppLayout() {
           >
             <div id="app-sidebar-navigation" hidden={sidebarCollapsed}>
               <nav className="app-sidebar-menu">
-                <NavLink className="app-sidebar-link" to="/menus">
-                  <UnorderedListOutlined aria-hidden="true" />
-                  <span>{t("menu.title")}</span>
-                </NavLink>
-                <NavLink className="app-sidebar-link" to="/users">
-                  <UserOutlined aria-hidden="true" />
-                  <span>{t("user.title")}</span>
-                </NavLink>
+                {(loginUser === null || canAccessPage(loginUser, "menus")) && (
+                  <NavLink className="app-sidebar-link" to="/menus">
+                    <UnorderedListOutlined aria-hidden="true" />
+                    <span>{t("menu.title")}</span>
+                  </NavLink>
+                )}
+                {(loginUser === null || canAccessPage(loginUser, "users")) && (
+                  <NavLink className="app-sidebar-link" to="/users">
+                    <UserOutlined aria-hidden="true" />
+                    <span>{t("user.title")}</span>
+                  </NavLink>
+                )}
               </nav>
             </div>
           </Layout.Sider>

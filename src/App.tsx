@@ -12,8 +12,10 @@ function App() {
       <Route element={<AppLayout />}>
         <Route path="/" element={<Navigate to="/menus" replace />} />
         <Route path="*" element={<NotFoundPage />} />
-        <Route element={<ProtectedRoute />}>
+        <Route element={<ProtectedRoute page="menus" />}>
           <Route path="/menus" element={<MenuManagementPage />} />
+        </Route>
+        <Route element={<ProtectedRoute page="users" />}>
           <Route path="/users" element={<UserManagementPage />} />
         </Route>
       </Route>

@@ -18,6 +18,15 @@ export const messages = {
   },
   auth: {
     demoLogin: "Demo login",
+    demoAdminLogin: "Admin demo login",
+    demoUserLogin: "User demo login",
+    roles: {
+      admin: "Administrator",
+      user: "User",
+    },
+    accessDenied: "Access denied",
+    accessDeniedDescription: "Only administrators can access this page.",
+    goToUsers: "Go to user management",
     logout: "Log out",
     signedInAs: "Signed in as: {{name}}",
     signedOut: "Signed out",

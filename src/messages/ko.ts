@@ -17,6 +17,15 @@ export const messages = {
   },
   auth: {
     demoLogin: "데모 로그인",
+    demoAdminLogin: "관리자 데모 로그인",
+    demoUserLogin: "일반 사용자 데모 로그인",
+    roles: {
+      admin: "관리자",
+      user: "일반 사용자",
+    },
+    accessDenied: "접근 권한이 없습니다",
+    accessDeniedDescription: "이 화면은 관리자만 이용할 수 있습니다.",
+    goToUsers: "사용자 관리로 이동",
     logout: "로그아웃",
     signedInAs: "로그인 사용자: {{name}}",
     signedOut: "로그아웃 상태",
