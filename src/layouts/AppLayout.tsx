@@ -1,9 +1,4 @@
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UnorderedListOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button, ConfigProvider, Layout, Select, Space, Tooltip } from "antd";
 import enUS from "antd/es/locale/en_US";
 import koKR from "antd/es/locale/ko_KR";
@@ -11,6 +6,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, Outlet, useNavigate } from "react-router";
 import { canAccessPage, getDefaultPath } from "../auth/permissions";
+import { navigationItems } from "../config/navigation";
 import { LANGUAGE_STORAGE_KEY } from "../i18n";
 import { loginDemo, logout, type UserRole } from "../store/authSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -20,6 +16,9 @@ function AppLayout() {
   const { t, i18n } = useTranslation();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const loginUser = useAppSelector((state) => state.auth.user);
+  const visibleNavigationItems = navigationItems.filter(
+    (item) => loginUser === null || canAccessPage(loginUser, item.permission),
+  );
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const handleDemoLogin = (role: UserRole) => {
@@ -110,18 +109,20 @@ function AppLayout() {
           >
             <div id="app-sidebar-navigation" hidden={sidebarCollapsed}>
               <nav className="app-sidebar-menu">
-                {(loginUser === null || canAccessPage(loginUser, "menus")) && (
-                  <NavLink className="app-sidebar-link" to="/menus">
-                    <UnorderedListOutlined aria-hidden="true" />
-                    <span>{t("menu.title")}</span>
-                  </NavLink>
-                )}
-                {(loginUser === null || canAccessPage(loginUser, "users")) && (
-                  <NavLink className="app-sidebar-link" to="/users">
-                    <UserOutlined aria-hidden="true" />
-                    <span>{t("user.title")}</span>
-                  </NavLink>
-                )}
+                {visibleNavigationItems.map((item) => {
+                  const Icon = item.icon;
+
+                  return (
+                    <NavLink
+                      key={item.path}
+                      className="app-sidebar-link"
+                      to={item.path}
+                    >
+                      <Icon aria-hidden="true" />
+                      <span>{t(item.labelKey)}</span>
+                    </NavLink>
+                  );
+                })}
               </nav>
             </div>
           </Layout.Sider>
