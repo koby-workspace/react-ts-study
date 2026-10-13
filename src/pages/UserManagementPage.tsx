@@ -1,7 +1,7 @@
 import { Alert, Button, Form, Spin, message } from "antd";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { getApiErrorMessage } from "../api/errors";
 import { createUser, deleteUser, getUsers, updateUser } from "../api/users";
 import { canPerformAction } from "../auth/permissions";
 import UserForm from "../components/UserForm";
@@ -10,16 +10,6 @@ import UserSearch from "../components/UserSearch";
 import i18n from "../i18n";
 import { useAppSelector } from "../store/hooks";
 import type { User, UserFormValues } from "../types/user";
-
-function getApiErrorMessage(error: unknown, fallbackMessage: string): string {
-  if (axios.isAxiosError(error) && error.code === "ERR_NETWORK") {
-    return i18n.t("common.networkError");
-  } else if (axios.isAxiosError(error) && error.code === "ECONNABORTED") {
-    return i18n.t("common.requestTimeout");
-  } else {
-    return fallbackMessage;
-  }
-}
 
 function UserManagementPage() {
   const { t } = useTranslation();
