@@ -3,7 +3,9 @@ import type { LoginUser, UserRole } from "../store/authSlice";
 export type PagePermission = "menus" | "users";
 export type ActionPermission = "users.create" | "users.update" | "users.delete";
 
-export function getDefaultPath(user: LoginUser | null): "/menus" | "/users" {
+export function getDefaultPath(
+  user: Pick<LoginUser, "role"> | null,
+): "/menus" | "/users" {
   return user?.role === "user" ? "/users" : "/menus";
 }
 

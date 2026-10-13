@@ -9,10 +9,10 @@ import enUS from "antd/es/locale/en_US";
 import koKR from "antd/es/locale/ko_KR";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { NavLink, Outlet } from "react-router";
-import { canAccessPage } from "../auth/permissions";
+import { NavLink, Outlet, useNavigate } from "react-router";
+import { canAccessPage, getDefaultPath } from "../auth/permissions";
 import { LANGUAGE_STORAGE_KEY } from "../i18n";
-import { loginDemo, logout } from "../store/authSlice";
+import { loginDemo, logout, type UserRole } from "../store/authSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import "../App.css";
 
@@ -21,6 +21,11 @@ function AppLayout() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const loginUser = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const handleDemoLogin = (role: UserRole) => {
+    dispatch(loginDemo(role));
+    navigate(getDefaultPath({ role }), { replace: true });
+  };
   const currentLanguage = i18n.resolvedLanguage === "en" ? "en" : "ko";
   const antdLocale = currentLanguage === "en" ? enUS : koKR;
   const sidebarToggleLabel = t(
@@ -74,10 +79,10 @@ function AppLayout() {
               </Button>
             ) : (
               <Space wrap>
-                <Button onClick={() => dispatch(loginDemo("admin"))}>
+                <Button onClick={() => handleDemoLogin("admin")}>
                   {t("auth.demoAdminLogin")}
                 </Button>
-                <Button onClick={() => dispatch(loginDemo("user"))}>
+                <Button onClick={() => handleDemoLogin("user")}>
                   {t("auth.demoUserLogin")}
                 </Button>
               </Space>
