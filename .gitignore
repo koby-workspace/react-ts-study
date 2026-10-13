@@ -26,3 +26,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Docs
+AGENTS.md
+/docs/learning-plan.md
+/docs/study-state.md
