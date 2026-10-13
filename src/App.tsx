@@ -2,10 +2,9 @@ import { Navigate, Route, Routes } from "react-router";
 import "./App.css";
 import { getDefaultPath } from "./auth/permissions";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { businessRouteList } from "./config/routes";
 import AppLayout from "./layouts/AppLayout";
-import MenuManagementPage from "./pages/MenuManagementPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import UserManagementPage from "./pages/UserManagementPage";
 import { useAppSelector } from "./store/hooks";
 
 function App() {
@@ -17,12 +16,18 @@ function App() {
       <Route element={<AppLayout />}>
         <Route path="/" element={<Navigate to={defaultPath} replace />} />
         <Route path="*" element={<NotFoundPage />} />
-        <Route element={<ProtectedRoute page="menus" />}>
-          <Route path="/menus" element={<MenuManagementPage />} />
-        </Route>
-        <Route element={<ProtectedRoute page="users" />}>
-          <Route path="/users" element={<UserManagementPage />} />
-        </Route>
+        {businessRouteList.map((route) => {
+          const Page = route.component;
+
+          return (
+            <Route
+              key={route.path}
+              element={<ProtectedRoute page={route.permission} />}
+            >
+              <Route path={route.path} element={<Page />} />
+            </Route>
+          );
+        })}
       </Route>
     </Routes>
   );
