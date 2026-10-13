@@ -21,6 +21,8 @@ export const messages = {
     logout: "Log out",
     signedInAs: "Signed in as: {{name}}",
     signedOut: "Signed out",
+    loginRequired: "Login required",
+    loginRequiredDescription: "Use demo login to access this page.",
   },
   notFound: {
     description: "The page could not be found.",

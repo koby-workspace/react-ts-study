@@ -20,6 +20,8 @@ export const messages = {
     logout: "로그아웃",
     signedInAs: "로그인 사용자: {{name}}",
     signedOut: "로그아웃 상태",
+    loginRequired: "로그인이 필요합니다",
+    loginRequiredDescription: "데모 로그인 후 이 화면을 이용할 수 있습니다.",
   },
   notFound: {
     description: "페이지를 찾을 수 없습니다.",
