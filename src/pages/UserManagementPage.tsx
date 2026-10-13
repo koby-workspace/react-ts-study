@@ -70,6 +70,9 @@ function UserManagementPage() {
       try {
         const loadedUsers = await getUsers();
         setUsers(loadedUsers);
+        messageApi.success(
+          i18n.t(editingId === null ? "user.created" : "user.updated"),
+        );
       } catch (error) {
         console.error("저장 후 사용자 조회 실패", error);
         messageApi.warning(i18n.t("user.savedButReloadFailed"));
@@ -154,6 +157,7 @@ function UserManagementPage() {
       if (id === editingId) {
         handleCancelEdit();
       }
+      messageApi.success(i18n.t("user.deleted"));
     } catch (error) {
       console.error("사용자 삭제 실패", error);
       messageApi.error(getApiErrorMessage(error, i18n.t("user.deleteFailed")));

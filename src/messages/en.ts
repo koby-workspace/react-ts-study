@@ -71,6 +71,9 @@ export const messages = {
     loadFailed: "Unable to load the user list.",
     saveFailed: "Unable to save the user.",
     deleteFailed: "Unable to delete the user.",
+    created: "The user was created.",
+    updated: "The user was updated.",
+    deleted: "The user was deleted.",
     duplicateLoginId: "This account ID is already registered.",
     savedButReloadFailed:
       "The user was saved, but the list could not be refreshed. Please reload it.",
