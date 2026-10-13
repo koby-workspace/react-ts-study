@@ -1,95 +1,161 @@
-# React + TypeScript + Vite
+# React · TypeScript SI 관리자 템플릿
 
-## 학습 프로젝트 실행과 mock 데이터
+React와 TypeScript를 학습하면서 SI 프로젝트의 출발점으로 사용할 관리자 템플릿을 만드는 프로젝트입니다. 메뉴 관리와 사용자 관리를 예제로 공통 화면, API 연결, 다국어 메시지, 로그인 상태와 권한 처리를 점진적으로 구현합니다.
+
+## 현재 구현된 기능
+
+- 공통 헤더·사이드바, 접기·펼치기, URL 기반 화면 이동과 현재 메뉴 강조
+- 메뉴 등록·수정·삭제, 메뉴명·URL 검색, 필수 입력·URL 중복 검사
+- 사용자 mock API 조회·등록·수정·삭제, 계정 ID·이름·이메일 검색과 입력 검증
+- API 처리 중 로딩 표시와 사용자 관리 영역 조작 제한, 네트워크 오류·시간 초과 안내
+- 한국어·영어 전환, 공통·업무별 메시지 관리, Ant Design 기본 UI 언어 연결
+- 관리자·일반 사용자 데모 로그인, 페이지 및 사용자 등록·수정·삭제 권한 제어
+- 역할별 기본 화면 이동, 미등록 주소의 404 안내와 권한 없는 화면의 403 안내
+
+## 사용 기술
+
+| 기술                        | 역할                              |
+| --------------------------- | --------------------------------- |
+| React · TypeScript          | 화면 컴포넌트, 상태와 데이터 타입 |
+| Vite                        | 개발 서버와 배포용 빌드           |
+| Ant Design                  | 폼·테이블·확인창·알림·레이아웃    |
+| React Router                | URL과 화면 연결                   |
+| Redux Toolkit · React Redux | 공통 로그인 상태와 컴포넌트 연결  |
+| Axios                       | 공통 HTTP 요청과 사용자 API 호출  |
+| i18next · react-i18next     | 메시지 조회와 언어 전환           |
+| json-server                 | 로컬 사용자 CRUD API              |
+| ESLint · Prettier           | 코드 규칙 검사와 서식 정리        |
+
+패키지와 실행 명령은 `package.json`, 설치할 정확한 의존성 버전은 `package-lock.json`에서 관리합니다.
+
+## 개발 환경 실행
+
+Node.js와 npm이 필요합니다. VS Code에서 프로젝트 폴더를 열고 터미널에서 의존성을 설치합니다.
 
 ```bash
 npm ci
+```
+
+`npm ci`는 `package-lock.json`에 기록된 버전으로 의존성을 설치합니다.
+
+첫 번째 터미널에서 mock API 서버를 실행합니다.
+
+```bash
+npm run mock
+```
+
+사용자 API 서버는 `http://localhost:3001`에서 실행됩니다. npm은 `mock` 실행 전에 `premock`을 자동 실행하며, `db.json`이 없을 때만 기본 데이터를 복사합니다.
+
+두 번째 터미널에서 프런트엔드 개발 서버를 실행합니다.
+
+```bash
 npm run dev
 ```
 
-별도 터미널에서 `npm run mock`을 실행하면 사용자 API 서버가
-`http://localhost:3001`에서 시작됩니다. `premock`은 `mock` 실행 전에 npm이
-자동으로 실행하는 script이며, `db.json`이 없을 때만 기본 데이터를 복사합니다.
-서버를 다시 시작해도 기존 실행 데이터는 유지됩니다.
+터미널에 표시된 Vite 주소로 접속합니다. 두 서버는 각각 실행 상태를 유지해야 합니다. 사용자 관리에 들어가면 목록을 자동 조회하며, 조회 버튼으로 다시 불러올 수 있습니다.
 
-- `db.seed.json`: Git으로 관리하는 기본 샘플 사용자 두 명
-- `db.json`: 등록·수정·삭제가 반영되는 실행 데이터. Git에서는 제외합니다.
+## API 환경 설정과 서버 교체
 
-실행 파일만 준비하려면 `npm run mock:init`을 사용합니다.
-기본 데이터로 되돌리려면 mock 서버를 `Ctrl+C`로 중지하고
-`npm run mock:reset`을 실행한 뒤 `npm run mock`으로 다시 시작합니다.
-초기화하면 기존 테스트 데이터는 기본 샘플 데이터로 교체됩니다.
+저장소의 `.env.development`에는 개발용 API 주소가 설정돼 있습니다.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```dotenv
+VITE_API_BASE_URL=http://localhost:3001
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+개인 환경에서 주소를 바꾸려면 Git에서 제외되는 `.env.development.local`에 같은 키를 설정합니다. 환경 파일을 변경한 뒤에는 개발 서버를 다시 시작합니다.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+`src/api/client.ts`는 이 값을 Axios의 `baseURL`로 사용하고, 요청 제한 시간은 5초로 설정합니다. 주소가 비어 있으면 설정 오류를 발생시킵니다.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| 파일                | 서버 연결을 바꿀 때 확인할 내용                               |
+| ------------------- | ------------------------------------------------------------- |
+| `src/api/client.ts` | API 기본 주소와 요청 제한 시간                                |
+| `src/api/users.ts`  | `/users` 조회·등록, `/users/:id` 수정·삭제와 응답 데이터 반환 |
+| `src/types/user.ts` | 서버 식별자 `id`, 계정 ID `loginId`, 이름·이메일 타입         |
+| `src/api/errors.ts` | 네트워크 오류·시간 초과와 기본 실패 메시지 선택               |
 
+현재 API는 응답 본문을 사용자 객체 또는 배열로 직접 받습니다. 다른 서버가 응답을 별도 객체로 감싸거나 필드·경로를 다르게 사용하면 API 함수와 타입을 함께 수정해야 합니다.
+
+## 데모 로그인과 권한
+
+헤더 또는 본문의 로그인 안내에서 역할별 데모 로그인 버튼을 선택합니다.
+
+| 역할                 | 로그인 후 기본 화면 | 메뉴 관리           | 사용자 관리              |
+| -------------------- | ------------------- | ------------------- | ------------------------ |
+| 관리자 (`admin`)     | `/menus`            | 등록·수정·삭제·검색 | 조회·검색·등록·수정·삭제 |
+| 일반 사용자 (`user`) | `/users`            | 접근 불가           | 조회·검색                |
+
+로그인 역할은 Redux에서 관리하고 `sessionStorage`에 저장합니다. 같은 탭에서 새로고침하거나 주소를 직접 입력해도 복원하며, 로그아웃하면 저장한 역할도 제거합니다.
+
+이 로그인은 버튼으로 역할을 선택하는 데모입니다. 실제 계정 인증이나 서버 권한 검증을 수행하지 않습니다. 실제 프로젝트에서는 서버가 인증과 API별 권한을 검증해야 합니다.
+
+## mock 데이터 관리
+
+| 파일                    | 용도                                                |
+| ----------------------- | --------------------------------------------------- |
+| `db.seed.json`          | Git으로 관리하는 기본 샘플 사용자 두 명             |
+| `db.json`               | 등록·수정·삭제가 반영되는 실행 데이터. Git에서 제외 |
+| `scripts/init-mock.mjs` | 실행 데이터 생성과 명시적 초기화                    |
+
+mock 서버를 다시 시작해도 기존 `db.json`은 유지됩니다. 실행 파일만 준비하려면 다음 명령을 사용합니다.
+
+```bash
+npm run mock:init
 ```
+
+기본 데이터로 되돌리려면 mock 서버를 `Ctrl+C`로 중지한 뒤 다음 명령을 순서대로 실행합니다.
+
+```bash
+npm run mock:reset
+npm run mock
+```
+
+초기화하면 기존 실행 데이터가 샘플 데이터로 교체됩니다. 실행 중인 화면에서는 사용자 조회 버튼으로 초기화된 목록을 다시 불러옵니다.
+
+## 주요 소스 구조
+
+```text
+src/
+  main.tsx        # Redux Provider, BrowserRouter, 다국어 초기화
+  App.tsx         # 공통 레이아웃과 업무·기본·404 라우트 연결
+  layouts/        # 공통 헤더·사이드바·본문 영역
+  pages/          # 업무 화면의 상태와 처리 흐름
+  components/     # 메뉴·사용자 폼, 검색, 목록과 접근 제어
+  config/         # 업무 라우트와 사이드바 항목 설정
+  auth/           # 페이지·작업 권한과 역할별 기본 경로
+  store/          # Redux 로그인 상태, 타입 지정 hooks, 역할 저장·복원
+  hooks/          # 여러 컴포넌트가 재사용하는 데모 로그인 hook
+  api/            # Axios 인스턴스, 사용자 API, 오류 메시지 선택
+  types/          # 메뉴·사용자와 폼 데이터 타입
+  messages/       # 한국어·영어 메시지 리소스
+  i18n.ts         # 언어 초기화, 기본 언어와 메시지 연결
+```
+
+새 업무 화면을 연결할 때는 `pages/`의 페이지, `config/routes.ts`의 라우트, `auth/permissions.ts`의 페이지 권한을 함께 정의합니다. 사이드바 항목은 `config/navigation.ts`, 화면 문구는 `messages/ko.ts`와 `messages/en.ts`에 추가합니다.
+
+## 빌드와 코드 검사
+
+```bash
+npm run build
+npm run lint
+```
+
+`build`는 TypeScript 검사 후 `dist/`에 배포용 파일을 생성하고, `lint`는 ESLint 규칙을 검사합니다.
+
+빌드는 기본적으로 production 모드를 사용하므로 `.env.development`를 읽지 않습니다. 빌드 전에 Git에서 제외되는 `.env.production.local` 등에 `VITE_API_BASE_URL`을 설정해야 합니다. 로컬 mock 서버로 빌드를 확인하는 경우에는 `http://localhost:3001`을 사용할 수 있습니다.
+
+`VITE_`로 시작하는 환경 변수는 프런트엔드 빌드에 포함되므로 API 기본 주소처럼 공개 가능한 값에 사용합니다. 빌드 후 API 주소를 바꾸려면 다시 빌드해야 합니다.
+
+빌드 결과를 로컬에서 확인하려면 다음 명령을 실행합니다. 사용자 API를 확인하려면 mock 서버도 실행 상태여야 합니다.
+
+```bash
+npm run preview
+```
+
+## 현재 범위와 제한 사항
+
+- 사용자 CRUD는 로컬 mock 서버와 연결돼 있습니다. 메뉴 CRUD는 컴포넌트의 로컬 상태로 관리하며, 화면을 떠나거나 새로고침하면 초기 데이터로 돌아갑니다.
+- 메뉴 관리에서 등록한 데이터와 실제 사이드바·업무 라우트 설정은 아직 연결돼 있지 않습니다.
+- 계정 ID 중복 검사는 저장 전에 목록을 조회하는 데모 방식입니다. 실제 서버에서는 동시 요청을 고려해 중복을 검증해야 합니다.
+- 언어 선택은 `localStorage`에 유지하며, 서버에서 받은 메뉴명·사용자 데이터 자체를 번역하지는 않습니다.
+- 배포 서버에서 URL 직접 접근을 지원하려면 `/menus`, `/users` 등의 요청을 `index.html`로 연결하는 SPA 라우팅 설정이 필요합니다.
+- 실제 서버 인증·권한 검증, 배포 환경 구성과 포트폴리오 화면 이미지는 이후 작업 범위입니다.
