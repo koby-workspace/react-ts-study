@@ -1,13 +1,9 @@
 import { Button, Result, Space } from "antd";
 import { useTranslation } from "react-i18next";
-import { Link, Outlet, useNavigate } from "react-router";
-import {
-  canAccessPage,
-  getDefaultPath,
-  type PagePermission,
-} from "../auth/permissions";
-import { loginDemo, type UserRole } from "../store/authSlice";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { Link, Outlet } from "react-router";
+import { canAccessPage, type PagePermission } from "../auth/permissions";
+import { useDemoLogin } from "../hooks/useDemoLogin";
+import { useAppSelector } from "../store/hooks";
 
 type ProtectedRouteProps = {
   page: PagePermission;
@@ -16,13 +12,7 @@ type ProtectedRouteProps = {
 function ProtectedRoute({ page }: ProtectedRouteProps) {
   const { t } = useTranslation();
   const loginUser = useAppSelector((state) => state.auth.user);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  const handleDemoLogin = (role: UserRole) => {
-    dispatch(loginDemo(role));
-    navigate(getDefaultPath({ role }), { replace: true });
-  };
+  const handleDemoLogin = useDemoLogin();
 
   if (loginUser === null) {
     return (

@@ -4,11 +4,12 @@ import enUS from "antd/es/locale/en_US";
 import koKR from "antd/es/locale/ko_KR";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { NavLink, Outlet, useNavigate } from "react-router";
-import { canAccessPage, getDefaultPath } from "../auth/permissions";
+import { NavLink, Outlet } from "react-router";
+import { canAccessPage } from "../auth/permissions";
 import { navigationItems } from "../config/navigation";
+import { useDemoLogin } from "../hooks/useDemoLogin";
 import { LANGUAGE_STORAGE_KEY } from "../i18n";
-import { loginDemo, logout, type UserRole } from "../store/authSlice";
+import { logout } from "../store/authSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import "../App.css";
 
@@ -20,11 +21,7 @@ function AppLayout() {
     (item) => loginUser === null || canAccessPage(loginUser, item.permission),
   );
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const handleDemoLogin = (role: UserRole) => {
-    dispatch(loginDemo(role));
-    navigate(getDefaultPath({ role }), { replace: true });
-  };
+  const handleDemoLogin = useDemoLogin();
   const currentLanguage = i18n.resolvedLanguage === "en" ? "en" : "ko";
   const antdLocale = currentLanguage === "en" ? enUS : koKR;
   const sidebarToggleLabel = t(
