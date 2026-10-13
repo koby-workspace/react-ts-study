@@ -1,4 +1,9 @@
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UnorderedListOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { Button, ConfigProvider, Layout, Select, Space, Tooltip } from "antd";
 import enUS from "antd/es/locale/en_US";
 import koKR from "antd/es/locale/ko_KR";
@@ -92,12 +97,16 @@ function AppLayout() {
             trigger={null}
           >
             <div id="app-sidebar-navigation" hidden={sidebarCollapsed}>
-              <div>
-                <NavLink to="/menus">{t("menu.title")}</NavLink>
-              </div>
-              <div>
-                <NavLink to="/users">{t("user.title")}</NavLink>
-              </div>
+              <nav className="app-sidebar-menu">
+                <NavLink className="app-sidebar-link" to="/menus">
+                  <UnorderedListOutlined aria-hidden="true" />
+                  <span>{t("menu.title")}</span>
+                </NavLink>
+                <NavLink className="app-sidebar-link" to="/users">
+                  <UserOutlined aria-hidden="true" />
+                  <span>{t("user.title")}</span>
+                </NavLink>
+              </nav>
             </div>
           </Layout.Sider>
           <Layout.Content className="app-content">
