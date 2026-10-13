@@ -2,7 +2,12 @@
   min-height: 100svh;
 }
 
-.app-header {
+.app-layout .app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-inline: 24px;
   color: white;
 }
 

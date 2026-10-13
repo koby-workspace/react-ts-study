@@ -1,13 +1,16 @@
 import { Result } from "antd";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
 function NotFoundPage() {
+  const { t } = useTranslation();
+
   return (
     <Result
       status="404"
       title="404"
-      subTitle="페이지를 찾을 수 없습니다."
-      extra={<Link to="/menus">메뉴 관리로 돌아가기</Link>}
+      subTitle={t("notFound.description")}
+      extra={<Link to="/menus">{t("notFound.backToMenus")}</Link>}
     />
   );
 }

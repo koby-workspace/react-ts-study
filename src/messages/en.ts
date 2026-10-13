@@ -11,6 +11,10 @@ export const messages = {
     networkError: "Unable to connect to the server. Please check your connection.",
     requestTimeout: "The request timed out. Please try again shortly.",
   },
+  notFound: {
+    description: "The page could not be found.",
+    backToMenus: "Back to menu management",
+  },
   menu: {
     title: "Menu management",
     name: "Menu name",

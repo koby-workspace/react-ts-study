@@ -13,6 +13,10 @@ export const messages = {
     requestTimeout:
       "요청 시간이 초과됐습니다. 잠시 후 다시 시도해 주세요.",
   },
+  notFound: {
+    description: "페이지를 찾을 수 없습니다.",
+    backToMenus: "메뉴 관리로 돌아가기",
+  },
   menu: {
     title: "메뉴 관리",
     name: "메뉴명",
