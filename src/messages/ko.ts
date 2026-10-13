@@ -51,6 +51,9 @@ export const messages = {
     deleteConfirm: "{{name}} 메뉴를 삭제할까요?",
   },
   user: {
+    readOnlyNotice:
+      "조회만 가능한 계정입니다. 사용자 등록·수정·삭제는 관리자만 할 수 있습니다.",
+    actionNotAllowed: "이 작업을 수행할 권한이 없습니다.",
     title: "사용자 관리",
     load: "사용자 조회",
     create: "사용자 등록",

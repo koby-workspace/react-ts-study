@@ -1,8 +1,9 @@
-import { Button, Form, Spin, message } from "antd";
+import { Alert, Button, Form, Spin, message } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { createUser, deleteUser, getUsers, updateUser } from "../api/users";
+import { canPerformAction } from "../auth/permissions";
 import UserForm from "../components/UserForm";
 import UserList from "../components/UserList";
 import UserSearch from "../components/UserSearch";
@@ -23,6 +24,9 @@ function getApiErrorMessage(error: unknown, fallbackMessage: string): string {
 function UserManagementPage() {
   const { t } = useTranslation();
   const loginUser = useAppSelector((state) => state.auth.user);
+  const canCreate = canPerformAction(loginUser, "users.create");
+  const canUpdate = canPerformAction(loginUser, "users.update");
+  const canDelete = canPerformAction(loginUser, "users.delete");
   const [form] = Form.useForm<UserFormValues>();
   const [searchText, setSearchText] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -31,6 +35,11 @@ function UserManagementPage() {
   const [users, setUsers] = useState<User[]>([]);
 
   const handleSaveUser = async (values: UserFormValues) => {
+    if (!(editingId === null ? canCreate : canUpdate)) {
+      messageApi.warning(t("user.actionNotAllowed"));
+      return;
+    }
+
     const loginId = values.loginId.trim();
     const savedUser: UserFormValues = {
       loginId,
@@ -85,7 +94,9 @@ function UserManagementPage() {
 
   const handleCancelEdit = () => {
     setEditingId(null);
-    form.resetFields();
+    if (canCreate || canUpdate) {
+      form.resetFields();
+    }
   };
 
   const handleLoadUsers = async () => {
@@ -139,6 +150,11 @@ function UserManagementPage() {
   }, [messageApi]);
 
   const handleDeleteUser = async (id: string) => {
+    if (!canDelete) {
+      messageApi.warning(t("user.actionNotAllowed"));
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -157,6 +173,11 @@ function UserManagementPage() {
   };
 
   const handleEditUser = (user: User) => {
+    if (!canUpdate) {
+      messageApi.warning(t("user.actionNotAllowed"));
+      return;
+    }
+
     setEditingId(user.id);
     form.setFieldsValue({
       loginId: user.loginId,
@@ -183,13 +204,18 @@ function UserManagementPage() {
             ? t("auth.signedInAs", { name: loginUser.name })
             : t("auth.signedOut")}
         </p>
+        {!canCreate && !canUpdate && !canDelete && (
+          <Alert type="info" showIcon title={t("user.readOnlyNotice")} />
+        )}
         <Button onClick={handleLoadUsers}>{t("user.load")}</Button>
-        <UserForm
-          form={form}
-          isEditing={editingId !== null}
-          onSave={handleSaveUser}
-          onCancel={handleCancelEdit}
-        />
+        {(editingId === null ? canCreate : canUpdate) && (
+          <UserForm
+            form={form}
+            isEditing={editingId !== null}
+            onSave={handleSaveUser}
+            onCancel={handleCancelEdit}
+          />
+        )}
         <UserSearch
           searchText={searchText}
           resultCount={filteredUsers.length}
@@ -199,6 +225,8 @@ function UserManagementPage() {
         />
         <UserList
           users={filteredUsers}
+          canUpdate={canUpdate}
+          canDelete={canDelete}
           onEdit={handleEditUser}
           onDelete={handleDeleteUser}
         />

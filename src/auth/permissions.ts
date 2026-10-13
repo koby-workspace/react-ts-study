@@ -1,10 +1,17 @@
 import type { LoginUser, UserRole } from "../store/authSlice";
 
 export type PagePermission = "menus" | "users";
+export type ActionPermission = "users.create" | "users.update" | "users.delete";
 
 const allowedRoles: Record<PagePermission, readonly UserRole[]> = {
   menus: ["admin"],
   users: ["admin", "user"],
+};
+
+const allowedActionRoles: Record<ActionPermission, readonly UserRole[]> = {
+  "users.create": ["admin"],
+  "users.update": ["admin"],
+  "users.delete": ["admin"],
 };
 
 export function canAccessPage(
@@ -12,4 +19,11 @@ export function canAccessPage(
   page: PagePermission,
 ): boolean {
   return user !== null && allowedRoles[page].includes(user.role);
+}
+
+export function canPerformAction(
+  user: LoginUser | null,
+  action: ActionPermission,
+): boolean {
+  return user !== null && allowedActionRoles[action].includes(user.role);
 }

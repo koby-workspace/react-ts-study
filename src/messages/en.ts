@@ -52,6 +52,9 @@ export const messages = {
     deleteConfirm: "Delete menu {{name}}?",
   },
   user: {
+    readOnlyNotice:
+      "This account has read-only access. Only administrators can create, edit, or delete users.",
+    actionNotAllowed: "You do not have permission to perform this action.",
     title: "User management",
     load: "Reload users",
     create: "Create user",
