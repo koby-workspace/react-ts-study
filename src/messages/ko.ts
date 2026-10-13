@@ -34,7 +34,7 @@ export const messages = {
   },
   notFound: {
     description: "페이지를 찾을 수 없습니다.",
-    backToMenus: "메뉴 관리로 돌아가기",
+    backToDefault: "기본 화면으로 돌아가기",
   },
   menu: {
     title: "메뉴 관리",

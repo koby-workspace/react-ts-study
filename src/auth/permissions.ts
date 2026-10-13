@@ -3,6 +3,10 @@ import type { LoginUser, UserRole } from "../store/authSlice";
 export type PagePermission = "menus" | "users";
 export type ActionPermission = "users.create" | "users.update" | "users.delete";
 
+export function getDefaultPath(user: LoginUser | null): "/menus" | "/users" {
+  return user?.role === "user" ? "/users" : "/menus";
+}
+
 const allowedRoles: Record<PagePermission, readonly UserRole[]> = {
   menus: ["admin"],
   users: ["admin", "user"],

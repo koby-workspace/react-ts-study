@@ -35,7 +35,7 @@ export const messages = {
   },
   notFound: {
     description: "The page could not be found.",
-    backToMenus: "Back to menu management",
+    backToDefault: "Back to default page",
   },
   menu: {
     title: "Menu management",
