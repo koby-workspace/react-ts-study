@@ -1,4 +1,4 @@
-import { Button, message } from "antd";
+import { message } from "antd";
 import { useState, type ChangeEvent, type SubmitEvent } from "react";
 import { useTranslation } from "react-i18next";
 import MenuForm from "../components/MenuForm";
@@ -8,7 +8,6 @@ import type { Menu } from "../types/menu";
 
 function MenuManagementPage() {
   const { t } = useTranslation();
-  const [collapsed, setCollapsed] = useState(false);
   const [menuName, setMenuName] = useState("");
   const [menuUrl, setMenuUrl] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -124,9 +123,6 @@ function MenuManagementPage() {
     <>
       {contextHolder}
       <h1>{t("menu.title")}</h1>
-      <Button onClick={() => setCollapsed((prev) => !prev)}>
-        {collapsed ? t("menu.expand") : t("menu.collapse")}
-      </Button>
       <MenuForm
         menuName={menuName}
         menuUrl={menuUrl}
@@ -136,22 +132,18 @@ function MenuManagementPage() {
         onSubmit={handleSubmit}
         onCancel={cancelEdit}
       />
-      {!collapsed && (
-        <>
-          <MenuSearch
-            searchText={searchText}
-            resultCount={filteredMenus.length}
-            totalCount={menus.length}
-            onSearchTextChange={handleSearchTextChange}
-            onReset={() => setSearchText("")}
-          ></MenuSearch>
-          <MenuList
-            menus={filteredMenus}
-            onDelete={deleteMenu}
-            onEdit={startEdit}
-          />
-        </>
-      )}
+      <MenuSearch
+        searchText={searchText}
+        resultCount={filteredMenus.length}
+        totalCount={menus.length}
+        onSearchTextChange={handleSearchTextChange}
+        onReset={() => setSearchText("")}
+      />
+      <MenuList
+        menus={filteredMenus}
+        onDelete={deleteMenu}
+        onEdit={startEdit}
+      />
     </>
   );
 }

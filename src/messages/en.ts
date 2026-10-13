@@ -12,6 +12,10 @@ export const messages = {
       "Unable to connect to the server. Please check your connection.",
     requestTimeout: "The request timed out. Please try again shortly.",
   },
+  layout: {
+    expandSidebar: "Expand sidebar",
+    collapseSidebar: "Collapse sidebar",
+  },
   auth: {
     demoLogin: "Demo login",
     logout: "Log out",
@@ -28,8 +32,6 @@ export const messages = {
     url: "URL",
     add: "Add menu",
     save: "Save menu",
-    expand: "Expand menu list",
-    collapse: "Collapse menu list",
     searchPlaceholder: "Search by menu name or URL",
     fieldsRequired: "Please enter both a menu name and a URL.",
     duplicateUrl: "This URL is already registered.",

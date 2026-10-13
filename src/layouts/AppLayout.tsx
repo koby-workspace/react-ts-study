@@ -1,6 +1,8 @@
-import { Button, ConfigProvider, Layout, Select, Space } from "antd";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import { Button, ConfigProvider, Layout, Select, Space, Tooltip } from "antd";
 import enUS from "antd/es/locale/en_US";
 import koKR from "antd/es/locale/ko_KR";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, Outlet } from "react-router";
 import { LANGUAGE_STORAGE_KEY } from "../i18n";
@@ -10,10 +12,14 @@ import "../App.css";
 
 function AppLayout() {
   const { t, i18n } = useTranslation();
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const loginUser = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
   const currentLanguage = i18n.resolvedLanguage === "en" ? "en" : "ko";
   const antdLocale = currentLanguage === "en" ? enUS : koKR;
+  const sidebarToggleLabel = t(
+    sidebarCollapsed ? "layout.expandSidebar" : "layout.collapseSidebar",
+  );
 
   const handleLanguageChange = (language: "ko" | "en") => {
     void i18n.changeLanguage(language);
@@ -29,7 +35,26 @@ function AppLayout() {
     <ConfigProvider locale={antdLocale}>
       <Layout className="app-layout">
         <Layout.Header className="app-header">
-          <span>SI Admin Template</span>
+          <Space size={12}>
+            <Tooltip title={sidebarToggleLabel} placement="bottom">
+              <Button
+                type="text"
+                className="app-sidebar-toggle"
+                aria-label={sidebarToggleLabel}
+                aria-expanded={!sidebarCollapsed}
+                aria-controls="app-sidebar-navigation"
+                icon={
+                  sidebarCollapsed ? (
+                    <MenuUnfoldOutlined />
+                  ) : (
+                    <MenuFoldOutlined />
+                  )
+                }
+                onClick={() => setSidebarCollapsed((prev) => !prev)}
+              />
+            </Tooltip>
+            <span>SI Admin Template</span>
+          </Space>
           <Space wrap>
             <span>
               {loginUser
@@ -58,12 +83,21 @@ function AppLayout() {
           </Space>
         </Layout.Header>
         <Layout>
-          <Layout.Sider className="app-sidebar" theme="light" width={200}>
-            <div>
-              <NavLink to="/menus">{t("menu.title")}</NavLink>
-            </div>
-            <div>
-              <NavLink to="/users">{t("user.title")}</NavLink>
+          <Layout.Sider
+            className="app-sidebar"
+            theme="light"
+            width={200}
+            collapsed={sidebarCollapsed}
+            collapsedWidth={0}
+            trigger={null}
+          >
+            <div id="app-sidebar-navigation" hidden={sidebarCollapsed}>
+              <div>
+                <NavLink to="/menus">{t("menu.title")}</NavLink>
+              </div>
+              <div>
+                <NavLink to="/users">{t("user.title")}</NavLink>
+              </div>
             </div>
           </Layout.Sider>
           <Layout.Content className="app-content">

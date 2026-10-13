@@ -9,10 +9,27 @@
   gap: 16px;
   padding-inline: 24px;
   color: white;
+  line-height: normal;
 }
 
 .app-content {
   padding: 24px;
+}
+
+.app-sidebar {
+  border-inline-end: 1px solid #f0f0f0;
+}
+
+.app-layout .app-header .app-sidebar-toggle {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  font-size: 20px;
+  color: white;
+}
+
+.app-layout .app-header .app-sidebar-toggle:hover {
+  background-color: rgb(255 255 255 / 12%);
 }
 
 .app-sidebar a.active {

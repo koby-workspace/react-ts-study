@@ -11,6 +11,10 @@ export const messages = {
     networkError: "서버에 연결하지 못했습니다. 연결 상태를 확인해 주세요.",
     requestTimeout: "요청 시간이 초과됐습니다. 잠시 후 다시 시도해 주세요.",
   },
+  layout: {
+    expandSidebar: "사이드바 펼치기",
+    collapseSidebar: "사이드바 접기",
+  },
   auth: {
     demoLogin: "데모 로그인",
     logout: "로그아웃",
@@ -27,8 +31,6 @@ export const messages = {
     url: "URL",
     add: "메뉴 추가",
     save: "메뉴 저장",
-    expand: "메뉴 펼치기",
-    collapse: "메뉴 접기",
     searchPlaceholder: "메뉴명 또는 URL 검색",
     fieldsRequired: "메뉴명과 URL을 모두 입력해 주세요.",
     duplicateUrl: "이미 등록된 URL입니다.",
