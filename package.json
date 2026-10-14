@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "test": "vitest",
     "mock:init": "node scripts/init-mock.mjs",
     "mock:reset": "node scripts/init-mock.mjs --reset",
     "premock": "npm run mock:init",
@@ -39,6 +40,7 @@
     "prettier": "^3.9.9",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.69.0",
-    "vite": "^8.3.0"
+    "vite": "^8.3.0",
+    "vitest": "^5.0.4"
   }
 }
