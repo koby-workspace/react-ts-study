@@ -1,4 +1,7 @@
-export const messages = {
+import type { messages as ko } from "@/shared/i18n/ko";
+
+// typeof ko로 선언해 한국어에 있는 키가 빠지면 컴파일 오류가 나게 한다.
+export const messages: typeof ko = {
   common: {
     edit: "Edit",
     delete: "Delete",
@@ -16,66 +19,8 @@ export const messages = {
     expandSidebar: "Expand sidebar",
     collapseSidebar: "Collapse sidebar",
   },
-  auth: {
-    demoLogin: "Demo login",
-    demoAdminLogin: "Admin demo login",
-    demoUserLogin: "User demo login",
-    roles: {
-      admin: "Administrator",
-      user: "User",
-    },
-    accessDenied: "Access denied",
-    accessDeniedDescription: "Only administrators can access this page.",
-    goToUsers: "Go to user management",
-    logout: "Log out",
-    signedInAs: "Signed in as: {{name}}",
-    signedOut: "Signed out",
-    loginRequired: "Login required",
-    loginRequiredDescription: "Use demo login to access this page.",
-  },
   notFound: {
     description: "The page could not be found.",
     backToDefault: "Back to default page",
-  },
-  menu: {
-    title: "Menu management",
-    name: "Menu name",
-    url: "URL",
-    add: "Add menu",
-    save: "Save menu",
-    searchPlaceholder: "Search by menu name or URL",
-    fieldsRequired: "Please enter both a menu name and a URL.",
-    duplicateUrl: "This URL is already registered.",
-    added: "The menu was added.",
-    updated: "The menu was updated.",
-    deleted: "The menu was deleted.",
-    deleteConfirm: "Delete menu {{name}}?",
-  },
-  user: {
-    readOnlyNotice:
-      "This account has read-only access. Only administrators can create, edit, or delete users.",
-    actionNotAllowed: "You do not have permission to perform this action.",
-    title: "User management",
-    load: "Reload users",
-    create: "Create user",
-    update: "Update user",
-    loginId: "Account ID",
-    name: "Name",
-    email: "Email",
-    searchPlaceholder: "Search by account ID, name or email",
-    loginIdRequired: "Please enter an account ID.",
-    nameRequired: "Please enter a name.",
-    emailRequired: "Please enter an email address.",
-    emailInvalid: "Please enter a valid email address.",
-    deleteConfirm: "Delete user {{name}}?",
-    loadFailed: "Unable to load the user list.",
-    saveFailed: "Unable to save the user.",
-    deleteFailed: "Unable to delete the user.",
-    created: "The user was created.",
-    updated: "The user was updated.",
-    deleted: "The user was deleted.",
-    duplicateLoginId: "This account ID is already registered.",
-    savedButReloadFailed:
-      "The user was saved, but the list could not be refreshed. Please reload it.",
   },
 };

@@ -16,3 +16,4 @@ export type {
   PagePermission,
 } from "@/features/auth/permissions";
 export { useDemoLogin } from "@/features/auth/useDemoLogin";
+export { authMessages } from "@/features/auth/messages";
