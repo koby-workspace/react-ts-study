@@ -1,11 +1,11 @@
 import { Navigate, Route, Routes } from "react-router";
-import "./App.css";
-import { getDefaultPath } from "./auth/permissions";
-import ProtectedRoute from "./components/ProtectedRoute";
-import { businessRouteList } from "./config/routes";
-import AppLayout from "./layouts/AppLayout";
-import NotFoundPage from "./pages/NotFoundPage";
-import { useAppSelector } from "./store/hooks";
+import "@/app/App.css";
+import { getDefaultPath } from "@/features/auth";
+import ProtectedRoute from "@/app/ProtectedRoute";
+import { businessRouteList } from "@/app/routes";
+import AppLayout from "@/layouts/AppLayout";
+import NotFoundPage from "@/app/NotFoundPage";
+import { useAppSelector } from "@/app/hooks";
 
 function App() {
   const loginUser = useAppSelector((state) => state.auth.user);

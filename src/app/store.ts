@@ -1,6 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer, { loginDemo } from "./authSlice";
-import { loadDemoRole, saveDemoRole } from "./authStorage";
+import {
+  authReducer,
+  loadDemoRole,
+  loginDemo,
+  saveDemoRole,
+} from "@/features/auth";
 
 export const store = configureStore({
   reducer: {

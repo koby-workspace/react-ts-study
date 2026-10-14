@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import { messages as ko } from "./messages/ko";
-import { messages as en } from "./messages/en";
+import { messages as ko } from "@/shared/i18n/ko";
+import { messages as en } from "@/shared/i18n/en";
 
 export const LANGUAGE_STORAGE_KEY = "preferredLanguage";
 

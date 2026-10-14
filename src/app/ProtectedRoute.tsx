@@ -1,9 +1,12 @@
 import { Button, Result, Space } from "antd";
 import { useTranslation } from "react-i18next";
 import { Link, Outlet } from "react-router";
-import { canAccessPage, type PagePermission } from "../auth/permissions";
-import { useDemoLogin } from "../hooks/useDemoLogin";
-import { useAppSelector } from "../store/hooks";
+import { useAppSelector } from "@/app/hooks";
+import {
+  canAccessPage,
+  type PagePermission,
+  useDemoLogin,
+} from "@/features/auth";
 
 type ProtectedRouteProps = {
   page: PagePermission;

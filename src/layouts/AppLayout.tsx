@@ -5,13 +5,11 @@ import koKR from "antd/es/locale/ko_KR";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, Outlet } from "react-router";
-import { canAccessPage } from "../auth/permissions";
-import { navigationItems } from "../config/navigation";
-import { useDemoLogin } from "../hooks/useDemoLogin";
-import { LANGUAGE_STORAGE_KEY } from "../i18n";
-import { logout } from "../store/authSlice";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import "../App.css";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { navigationItems } from "@/app/navigation";
+import { canAccessPage, logout, useDemoLogin } from "@/features/auth";
+import { LANGUAGE_STORAGE_KEY } from "@/shared/i18n/i18n";
+import "@/app/App.css";
 
 function AppLayout() {
   const { t, i18n } = useTranslation();

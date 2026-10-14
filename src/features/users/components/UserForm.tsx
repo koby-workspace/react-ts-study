@@ -1,6 +1,6 @@
 import { Button, Form, Input, Space, type FormInstance } from "antd";
 import { useTranslation } from "react-i18next";
-import type { UserFormValues } from "../types/user";
+import type { UserFormValues } from "@/features/users/types";
 
 type UserFormProps = {
   form: FormInstance<UserFormValues>;

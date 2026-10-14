@@ -1,6 +1,6 @@
 import { UnorderedListOutlined, UserOutlined } from "@ant-design/icons";
-import type { PagePermission } from "../auth/permissions";
-import { businessRoutes } from "./routes";
+import type { PagePermission } from "@/features/auth";
+import { businessRoutes } from "@/app/routes";
 
 type NavigationItem = {
   path: string;

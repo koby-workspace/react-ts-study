@@ -1,8 +1,8 @@
 import { Result } from "antd";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
-import { getDefaultPath } from "../auth/permissions";
-import { useAppSelector } from "../store/hooks";
+import { getDefaultPath } from "@/features/auth";
+import { useAppSelector } from "@/app/hooks";
 
 function NotFoundPage() {
   const { t } = useTranslation();

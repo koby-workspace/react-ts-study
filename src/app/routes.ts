@@ -1,7 +1,7 @@
 import type { ComponentType } from "react";
-import type { PagePermission } from "../auth/permissions";
-import MenuManagementPage from "../pages/MenuManagementPage";
-import UserManagementPage from "../pages/UserManagementPage";
+import type { PagePermission } from "@/features/auth";
+import { MenuManagementPage } from "@/features/menus";
+import { UserManagementPage } from "@/features/users";
 
 type BusinessRoute = {
   path: string;

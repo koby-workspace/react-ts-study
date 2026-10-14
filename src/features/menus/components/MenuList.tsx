@@ -1,6 +1,6 @@
 import { Button, Popconfirm, Space, Table, type TableColumnsType } from "antd";
 import { useTranslation } from "react-i18next";
-import type { Menu } from "../types/menu";
+import type { Menu } from "@/features/menus/types";
 
 type MenuListProps = {
   menus: Menu[];

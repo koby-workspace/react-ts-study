@@ -1,15 +1,20 @@
 import { Alert, Button, Form, Spin, message } from "antd";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { getApiErrorMessage } from "../api/errors";
-import { createUser, deleteUser, getUsers, updateUser } from "../api/users";
-import { canPerformAction } from "../auth/permissions";
-import UserForm from "../components/UserForm";
-import UserList from "../components/UserList";
-import UserSearch from "../components/UserSearch";
-import i18n from "../i18n";
-import { useAppSelector } from "../store/hooks";
-import type { User, UserFormValues } from "../types/user";
+import { getApiErrorMessage } from "@/shared/api/errors";
+import {
+  createUser,
+  deleteUser,
+  getUsers,
+  updateUser,
+} from "@/features/users/api";
+import { canPerformAction } from "@/features/auth";
+import UserForm from "@/features/users/components/UserForm";
+import UserList from "@/features/users/components/UserList";
+import UserSearch from "@/features/users/components/UserSearch";
+import i18n from "@/shared/i18n/i18n";
+import { useAppSelector } from "@/app/hooks";
+import type { User, UserFormValues } from "@/features/users/types";
 
 function UserManagementPage() {
   const { t } = useTranslation();

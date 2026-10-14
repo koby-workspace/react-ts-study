@@ -1,5 +1,5 @@
 import axios from "axios";
-import i18n from "../i18n";
+import i18n from "@/shared/i18n/i18n";
 
 export function getApiErrorMessage(
   error: unknown,

@@ -1,4 +1,4 @@
-import type { LoginUser, UserRole } from "../store/authSlice";
+import type { LoginUser, UserRole } from "@/features/auth/authSlice";
 
 export type PagePermission = "menus" | "users";
 export type ActionPermission = "users.create" | "users.update" | "users.delete";

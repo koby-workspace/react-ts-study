@@ -64,14 +64,14 @@ VITE_API_BASE_URL=http://localhost:3001
 
 개인 환경에서 주소를 바꾸려면 Git에서 제외되는 `.env.development.local`에 같은 키를 설정합니다. 환경 파일을 변경한 뒤에는 개발 서버를 다시 시작합니다.
 
-`src/api/client.ts`는 이 값을 Axios의 `baseURL`로 사용하고, 요청 제한 시간은 5초로 설정합니다. 주소가 비어 있으면 설정 오류를 발생시킵니다.
+`src/shared/api/client.ts`는 이 값을 Axios의 `baseURL`로 사용하고, 요청 제한 시간은 5초로 설정합니다. 주소가 비어 있으면 설정 오류를 발생시킵니다.
 
-| 파일                | 서버 연결을 바꿀 때 확인할 내용                               |
-| ------------------- | ------------------------------------------------------------- |
-| `src/api/client.ts` | API 기본 주소와 요청 제한 시간                                |
-| `src/api/users.ts`  | `/users` 조회·등록, `/users/:id` 수정·삭제와 응답 데이터 반환 |
-| `src/types/user.ts` | 서버 식별자 `id`, 계정 ID `loginId`, 이름·이메일 타입         |
-| `src/api/errors.ts` | 네트워크 오류·시간 초과와 기본 실패 메시지 선택               |
+| 파일                          | 서버 연결을 바꿀 때 확인할 내용                               |
+| ----------------------------- | ------------------------------------------------------------- |
+| `src/shared/api/client.ts`    | API 기본 주소와 요청 제한 시간                                |
+| `src/features/users/api.ts`   | `/users` 조회·등록, `/users/:id` 수정·삭제와 응답 데이터 반환 |
+| `src/features/users/types.ts` | 서버 식별자 `id`, 계정 ID `loginId`, 이름·이메일 타입         |
+| `src/shared/api/errors.ts`    | 네트워크 오류·시간 초과와 기본 실패 메시지 선택               |
 
 현재 API는 응답 본문을 사용자 객체 또는 배열로 직접 받습니다. 다른 서버가 응답을 별도 객체로 감싸거나 필드·경로를 다르게 사용하면 API 함수와 타입을 함께 수정해야 합니다.
 
@@ -115,22 +115,20 @@ npm run mock
 
 ```text
 src/
-  main.tsx        # Redux Provider, BrowserRouter, 다국어 초기화
-  App.tsx         # 공통 레이아웃과 업무·기본·404 라우트 연결
-  layouts/        # 공통 헤더·사이드바·본문 영역
-  pages/          # 업무 화면의 상태와 처리 흐름
-  components/     # 메뉴·사용자 폼, 검색, 목록과 접근 제어
-  config/         # 업무 라우트와 사이드바 항목 설정
-  auth/           # 페이지·작업 권한과 역할별 기본 경로
-  store/          # Redux 로그인 상태, 타입 지정 hooks, 역할 저장·복원
-  hooks/          # 여러 컴포넌트가 재사용하는 데모 로그인 hook
-  api/            # Axios 인스턴스, 사용자 API, 오류 메시지 선택
-  types/          # 메뉴·사용자와 폼 데이터 타입
-  messages/       # 한국어·영어 메시지 리소스
-  i18n.ts         # 언어 초기화, 기본 언어와 메시지 연결
+  app/              # 앱 조립: 진입점, Redux store·hooks, 라우트·사이드바 설정, 접근 제어, 404
+  layouts/          # 공통 헤더·사이드바·본문 영역
+  shared/
+    api/            # Axios 인스턴스, 오류 메시지 선택
+    i18n/           # 언어 초기화와 한국어·영어 메시지
+  features/
+    auth/           # 데모 로그인 상태·저장, 페이지·작업 권한, 로그인 hook
+    menus/          # 메뉴 관리 화면·컴포넌트·타입
+    users/          # 사용자 관리 화면·컴포넌트·API·타입
 ```
 
-새 업무 화면을 연결할 때는 `pages/`의 페이지, `config/routes.ts`의 라우트, `auth/permissions.ts`의 페이지 권한을 함께 정의합니다. 사이드바 항목은 `config/navigation.ts`, 화면 문구는 `messages/ko.ts`와 `messages/en.ts`에 추가합니다.
+import 경로는 `@/` 별칭(`src/` 기준)을 사용합니다. 각 feature는 `index.ts`로 다른 영역에 공개할 항목만 내보내며, 다른 feature의 내부 파일을 직접 import하지 않습니다. 의존 방향은 `app → features → shared`이며, feature는 예외적으로 `app/hooks.ts`의 타입 지정 Redux hook을 사용합니다.
+
+새 업무 화면을 연결할 때는 `features/<기능>/`에 화면을 만들고 `index.ts`로 공개한 뒤, `app/routes.ts`의 라우트와 `features/auth/permissions.ts`의 페이지 권한을 함께 정의합니다. 사이드바 항목은 `app/navigation.ts`, 화면 문구는 `shared/i18n/ko.ts`와 `shared/i18n/en.ts`에 추가합니다.
 
 ## 빌드와 코드 검사
 

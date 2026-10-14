@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
-import { getDefaultPath } from "../auth/permissions";
-import { loginDemo, type UserRole } from "../store/authSlice";
-import { useAppDispatch } from "../store/hooks";
+import { getDefaultPath } from "@/features/auth/permissions";
+import { loginDemo, type UserRole } from "@/features/auth/authSlice";
+import { useAppDispatch } from "@/app/hooks";
 
 export function useDemoLogin() {
   const dispatch = useAppDispatch();

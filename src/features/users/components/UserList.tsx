@@ -1,6 +1,6 @@
 import { Button, Popconfirm, Space, Table, type TableColumnsType } from "antd";
 import { useTranslation } from "react-i18next";
-import type { User } from "../types/user";
+import type { User } from "@/features/users/types";
 
 type UserListProps = {
   users: User[];

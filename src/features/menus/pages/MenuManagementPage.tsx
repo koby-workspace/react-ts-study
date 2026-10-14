@@ -1,10 +1,10 @@
 import { message } from "antd";
 import { useState, type ChangeEvent, type SubmitEvent } from "react";
 import { useTranslation } from "react-i18next";
-import MenuForm from "../components/MenuForm";
-import MenuList from "../components/MenuList";
-import MenuSearch from "../components/MenuSearch";
-import type { Menu } from "../types/menu";
+import MenuForm from "@/features/menus/components/MenuForm";
+import MenuList from "@/features/menus/components/MenuList";
+import MenuSearch from "@/features/menus/components/MenuSearch";
+import type { Menu } from "@/features/menus/types";
 
 function MenuManagementPage() {
   const { t } = useTranslation();

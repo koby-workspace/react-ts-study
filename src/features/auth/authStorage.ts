@@ -1,4 +1,4 @@
-import type { UserRole } from "./authSlice";
+import type { UserRole } from "@/features/auth/authSlice";
 
 const DEMO_ROLE_STORAGE_KEY = "si-template.demoRole";
 
